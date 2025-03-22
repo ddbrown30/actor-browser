@@ -9,7 +9,7 @@
 {{#each actors}}
 <tr class="actor-option{{#if (and ../selectedActor (eq ../selectedActor uuid))}} selected{{/if}}" data-actor-id="{{uuid}}">
     <td class="actor-cell-img">
-        <img src="{{img.display}}" alt="{{name.display}}"  class="actor-row-img">
+        <img src="{{img.display}}" alt="{{name.display}}" loading="lazy" class="actor-row-img">
     </td>
     <td class="actor-cell-name">
         <p class="actor-row-text">{{name.display}}</p>
