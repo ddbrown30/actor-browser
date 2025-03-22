@@ -23,9 +23,16 @@ export class ActorBrowser {
     static async onRenderActorDirectory(app, html, data) {
         if (!Utils.getSetting(SETTING_KEYS.showOnActorDirectory)) return;
 
-        let header = html[0].querySelector(".directory-header");
-        const browserButton = await renderTemplate(DEFAULT_CONFIG.templates.actorBrowserButton);
-        header.insertAdjacentHTML("beforeend", browserButton);
+        let useSmallButton = Utils.getSetting(SETTING_KEYS.useSmallButton);
+        const browserButton = await renderTemplate(DEFAULT_CONFIG.templates.actorBrowserButton, {useSmallButton: useSmallButton});
+        
+        if (useSmallButton) {
+            let header = html[0].querySelector(".header-search");
+            header.insertAdjacentHTML("beforeend", browserButton);
+        } else {
+            let header = html[0].querySelector(".directory-header");
+            header.insertAdjacentHTML("beforeend", browserButton);
+        }
 
         //Respond to the open button
         const button = html.find(".open-actor-browser-button");

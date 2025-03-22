@@ -177,7 +177,7 @@
     overflow-x: hidden;
 }
 
-.open-actor-browser-button {
+.header-actor-browser .open-actor-browser-button {
     max-width: fit-content;
 }
 

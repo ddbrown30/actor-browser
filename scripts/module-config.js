@@ -21,5 +21,6 @@ export const FLAGS = {
 
 export const SETTING_KEYS = {
     showOnActorDirectory: "showOnActorDirectory",
+    useSmallButton: "useSmallButton",
 }
 

@@ -13,4 +13,13 @@ export function registerSettings() {
         requiresReload: true,
     });
 
+    Utils.registerSetting(MODULE_CONFIG.SETTING_KEYS.useSmallButton, {
+        name: "ACTOR_BROWSER.Settings.UseSmallButtonN",
+        hint: "ACTOR_BROWSER.Settings.UseSmallButtonH",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: false,
+        requiresReload: true,
+    });
 }

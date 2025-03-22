@@ -1,3 +1,7 @@
+{{#if useSmallButton}}
+<a class="header-control open-actor-browser-button" aria-label="{{{localize "ACTOR_BROWSER.OpenActorBrowser"}}}" role="button" data-tooltip="ACTOR_BROWSER.OpenActorBrowser"><i class="fa-duotone fa-folder-user fa-lg"></i></a>
+{{else}}
 <div class="header-actor-browser action-buttons flexrow">
-    <button class="open-actor-browser-button"><i class="fas fa-file-import"></i> {{{localize "ACTOR_BROWSER.OpenActorBrowser"}}}</button>
+    <button class="open-actor-browser-button"><i class="fas fa-folder-user"></i> {{{localize "ACTOR_BROWSER.OpenActorBrowser"}}}</button>
 </div>
+{{/if}}
