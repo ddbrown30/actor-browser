@@ -30,6 +30,24 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
     constructor(options = {}) {
         super(options);
         this.selector = !!options.selector;
+
+        this.dragDrop = new DragDrop({
+            dragSelector: '.actor-option',
+            callbacks: {
+                dragstart: this.onDragStart.bind(this),
+            }
+        });
+    }
+
+    onDragStart(event) {
+        if ('link' in event.target.dataset) return;
+
+        let dragData = {
+            type: "Actor",
+            uuid: event.target.dataset.actorId,
+        };
+
+        event.dataTransfer.setData('text/plain', JSON.stringify(dragData));
     }
 
     async _prepareContext(_options) {
@@ -81,6 +99,24 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
    */
     _onRender(context, options) {
         this.activateListeners();
+        this.dragDrop.bind(this.element);
+    }
+
+    async renderActorList(event) {
+        let filteredRows = this.filterRows(this.rowData);
+        let data = {
+            actors: filteredRows,
+            selectedActor: this.selectedActor,
+        };
+
+        //Re-render just the actor list with the newly filtered list and replace the html
+        const content = await renderTemplate(this.systemHandler.getActorListTemplate(), data);
+        let optionsBox = event.target.closest(".search-panel");
+        let actorList = optionsBox.querySelector(".actor-list");
+        actorList.innerHTML = content;
+
+        //We need to activate listeners again since we just stomped over the existing html
+        this.activateTableListeners(this.element);
     }
 
     activateListeners() {
@@ -88,20 +124,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         const searchSelector = this.element.querySelector('input.search');
         searchSelector.addEventListener("keyup", async event => {
             this.search = event.target.value;
-            let filteredRows = this.filterRows(this.rowData);
-            let data = {
-                actors: filteredRows,
-                selectedActor: this.selectedActor,
-            };
-
-            //Re-render just the actor list with the newly filtered list and replace the html
-            const content = await renderTemplate(this.systemHandler.getActorListTemplate(), data);
-            let optionsBox = event.target.closest(".search-panel");
-            let actorList = optionsBox.querySelector(".actor-list");
-            actorList.innerHTML = content;
-            
-            //We need to activate listeners again since we just stomped over the existing html
-            this.activateTableListeners(this.element);
+            await this.renderActorList(event);
         });
 
         //Add the listener to the source dropdown
@@ -143,7 +166,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
 
             row.addEventListener("click", async event => {
                 this.selectedActor = row.dataset.actorId;
-                this.render();
+                await this.renderActorList(event);
             });
         }
     }
