@@ -57,7 +57,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         let sources = [];
 
         //Add a "nothing" default and the world actors to the sources list
-        sources.push({ id: "", label: "" });
+        sources.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAll") });
         sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterWorldActors") });
 
         //Grab the actors that are local to this world
@@ -80,13 +80,15 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         //Filter the final rows in a transient variable so that we can refilter without requiring a render call
         let filteredRows = this.filterRows(this.rowData);
 
+        let selectButtonString = this.getSelectButtonString();
+
         return {
             sources: sources,
             sourceFilter: this.sourceFilter,
             search: this.search,
             actors: filteredRows,
             selectedActor: this.selectedActor,
-            selector: this.selector,
+            selectButtonString: selectButtonString,
         };
     };
 
@@ -177,6 +179,16 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
                         r.classList.remove("selected");
                     }
                 }
+
+                //Update the select button
+                const selectButton = element.querySelector('[data-action="select"]');
+                let selectButtonString = this.getSelectButtonString();
+                selectButton.textContent = selectButtonString;
+                selectButton.disabled = false;
+            });
+
+            row.addEventListener("dblclick", async event => {
+                this.select();
             });
         }
         
@@ -266,6 +278,15 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         });
 
         return retVal;
+    }
+
+    getSelectButtonString() {
+        let selectButtonString = game.i18n.localize(this.selector ? "ACTOR_BROWSER.Select" : "ACTOR_BROWSER.Open");
+        if (this.selectedActor) {
+            let actor = this.rowData.find((a) => a.uuid == this.selectedActor);
+            selectButtonString += " " + actor.name.display;
+        }
+        return selectButtonString;
     }
 
     /**

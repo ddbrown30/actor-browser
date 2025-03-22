@@ -3,6 +3,7 @@
     "ACTOR_BROWSER.OpenActorBrowser": "Open Actor Browser",
     "ACTOR_BROWSER.FilterSource": "Filter Source:",
     "ACTOR_BROWSER.WorldCompendium": "World Compendium",
+    "ACTOR_BROWSER.FilterAll": "All Actors",
     "ACTOR_BROWSER.FilterWorldActors": "World Actors",
     "ACTOR_BROWSER.Select": "Select",
     "ACTOR_BROWSER.Open": "Open",
