@@ -15,6 +15,11 @@
     "ACTOR_BROWSER.Spi": "Spi",
     "ACTOR_BROWSER.Str": "Str",
     "ACTOR_BROWSER.Vig": "Vig",
+    "ACTOR_BROWSER.CR": "CR/LVL",
+    "ACTOR_BROWSER.Type": "Type",
+    "ACTOR_BROWSER.Alignment": "Alignment",
+    
+    "ACTOR_BROWSER.None": "None",
     
     "ACTOR_BROWSER.WaitError": "Actor Browser was used as a selector but the requester did not wait for the results.",
     

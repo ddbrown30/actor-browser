@@ -102,6 +102,18 @@
     width: 50px;
 }
 
+.actor-browser-dialog .actor-cell-dndsize {
+    width: 100px;
+}
+
+.actor-browser-dialog .actor-cell-dndalignment {
+    width: 150px;
+}
+
+.actor-browser-dialog .actor-cell-dndtype {
+    width: 100px;
+}
+
 .actor-browser-dialog .actor-option {
     box-shadow: revert;
     height: 100%;

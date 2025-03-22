@@ -3,12 +3,15 @@ import { SETTING_KEYS, DEFAULT_CONFIG } from "./module-config.js";
 import { ActorBrowserDialog } from "./actor-browser-dialog.js";
 import { Swade } from "./systems/swade.js";
 import { BaseSystem } from "./systems/base-system.js";
+import { DnD5e } from "./systems/dnd5e.js";
 
 export class ActorBrowser {
 
     static async createSystemHandler() {
         if (game.system.id == "swade") {
             game.actorBrowser.systemHandler = new Swade();
+        } else if (game.system.id == "dnd5e") {
+            game.actorBrowser.systemHandler = new DnD5e();
         } else {
             game.actorBrowser.systemHandler = new BaseSystem();
         }

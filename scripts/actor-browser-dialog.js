@@ -60,13 +60,13 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         sources.push({ id: "", label: "" });
         sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterWorldActors") });
 
+        //Grab the actors that are local to this world
+        actors = actors.concat(...this.getWorldActors());
+
         //Grab all actors from compendiums
         let packActors = await this.getPackActors();
         sources = sources.concat(...packActors.sources);
         actors = actors.concat(...packActors.actors);
-
-        //Grab the actors that are local to this world
-        actors = actors.concat(...this.getWorldActors());
 
         this.search = this.search ?? "";
         this.sourceFilter = this.sourceFilter ?? sources[0].id;
@@ -99,7 +99,6 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
    */
     _onRender(context, options) {
         this.activateListeners();
-        this.dragDrop.bind(this.element);
     }
 
     async renderActorList(event) {
@@ -169,6 +168,8 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
                 await this.renderActorList(event);
             });
         }
+        
+        this.dragDrop.bind(this.element);
     }
 
     async getPackActors() {
@@ -285,6 +286,5 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         //If we're not a selector, we want to open the actor sheet
         let actor = await fromUuid(this.selectedActor);
         actor.sheet.render(true);
-        this.close();
     }
 }
