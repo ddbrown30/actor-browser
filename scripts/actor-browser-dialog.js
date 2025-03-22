@@ -165,7 +165,18 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
 
             row.addEventListener("click", async event => {
                 this.selectedActor = row.dataset.actorId;
-                await this.renderActorList(event);
+                
+                //Loop over the rows and add/remove the selected class as needed
+                for (let r of rows) {
+                    if (!r.dataset?.actorId) continue;
+                    if (r.dataset.actorId == this.selectedActor) {
+                        if (!r.classList.contains("selected")) {
+                            r.classList.add("selected");
+                        }
+                    } else {
+                        r.classList.remove("selected");
+                    }
+                }
             });
         }
         
@@ -243,8 +254,8 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         return filtered;
     }
 
-    sortRows(actors, sortColumn, sortOrder) {
-        let retVal = actors.sort(function (a, b) {
+    sortRows(rows, sortColumn, sortOrder) {
+        let retVal = rows.sort(function (a, b) {
             const sortA = a[sortColumn];
             const sortB = b[sortColumn];
             if (typeof sortA.sortValue == "string") {

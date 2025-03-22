@@ -4,6 +4,7 @@ import { ActorBrowserDialog } from "./actor-browser-dialog.js";
 import { Swade } from "./systems/swade.js";
 import { BaseSystem } from "./systems/base-system.js";
 import { DnD5e } from "./systems/dnd5e.js";
+import { PF2e } from "./systems/pf2e.js";
 
 export class ActorBrowser {
 
@@ -12,6 +13,8 @@ export class ActorBrowser {
             game.actorBrowser.systemHandler = new Swade();
         } else if (game.system.id == "dnd5e") {
             game.actorBrowser.systemHandler = new DnD5e();
+        } else if (game.system.id == "pf2e") {
+            game.actorBrowser.systemHandler = new PF2e();
         } else {
             game.actorBrowser.systemHandler = new BaseSystem();
         }

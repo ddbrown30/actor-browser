@@ -114,6 +114,10 @@
     width: 100px;
 }
 
+.actor-browser-dialog .actor-cell-pf2etraits {
+    width: 150px;
+}
+
 .actor-browser-dialog .actor-option {
     box-shadow: revert;
     height: 100%;

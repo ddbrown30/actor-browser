@@ -18,6 +18,8 @@
     "ACTOR_BROWSER.CR": "CR/LVL",
     "ACTOR_BROWSER.Type": "Type",
     "ACTOR_BROWSER.Alignment": "Alignment",
+    "ACTOR_BROWSER.Traits": "Traits",
+    "ACTOR_BROWSER.Level": "Level",
     
     "ACTOR_BROWSER.None": "None",
     
