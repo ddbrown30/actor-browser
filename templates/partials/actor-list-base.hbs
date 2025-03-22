@@ -1,0 +1,14 @@
+<tr class="actor-header">
+    <th id="column-img" class="actor-cell-img"></th>
+    <th id="column-name" class="actor-cell-name" data-sort-id="name">{{{localize "ACTOR_BROWSER.Name"}}}</th>
+</tr>
+{{#each actors}}
+<tr class="actor-option{{#if (and ../selectedActor (eq ../selectedActor uuid))}} selected{{/if}}" data-actor-id="{{uuid}}">
+    <td class="actor-cell-img">
+        <img src="{{img.display}}" alt="{{name.display}}" loading="lazy" class="actor-row-img">
+    </td>
+    <td class="actor-cell-name">
+        <p class="actor-row-text">{{name.display}}</p>
+    </td>
+</tr>
+{{/each}}

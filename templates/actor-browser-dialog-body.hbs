@@ -1,0 +1,20 @@
+<main>
+    <div class="filter-panel">
+        <div class="source-filter filter-row">
+            <label for="source-filter">{{{localize "ACTOR_BROWSER.FilterSource"}}}</label>
+            <select id="source-filter" name="source-filter" type="dropdown" placeholder="Filter Source..." class="">
+                {{selectOptions sources selected=sourceFilter localize=true valueAttr="id" labelAttr="label"}}
+            </select>
+        </div>
+    </div>
+    <div class="search-panel">
+        <div class="search-input">
+            <input type="text" class="search" value="{{search}}">
+        </div>
+        <div>
+            <table id="actor-list" class="actor-list">
+                {{> actorListPartial actors=actors}}
+            </table>
+        </div>
+    </div>
+</main>

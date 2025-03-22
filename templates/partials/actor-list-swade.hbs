@@ -1,0 +1,38 @@
+<tr class="actor-header">
+    <th id="column-img" class="actor-cell-img"></th>
+    <th id="column-name" class="actor-cell-name" data-sort-id="name">{{{localize "ACTOR_BROWSER.Name"}}}</th>
+    <th id="column-size" class="actor-cell-attr" data-sort-id="size">{{{localize "ACTOR_BROWSER.Size"}}}</th>
+    <th id="column-agi" class="actor-cell-attr" data-sort-id="agi">{{{localize "ACTOR_BROWSER.Agi"}}}</th>
+    <th id="column-sma" class="actor-cell-attr" data-sort-id="sma">{{{localize "ACTOR_BROWSER.Sma"}}}</th>
+    <th id="column-spi" class="actor-cell-attr" data-sort-id="spi">{{{localize "ACTOR_BROWSER.Spi"}}}</th>
+    <th id="column-str" class="actor-cell-attr" data-sort-id="str">{{{localize "ACTOR_BROWSER.Str"}}}</th>
+    <th id="column-vig" class="actor-cell-attr" data-sort-id="vig">{{{localize "ACTOR_BROWSER.Vig"}}}</th>
+</tr>
+{{#each actors}}
+<tr class="actor-option{{#if (and ../selectedActor (eq ../selectedActor uuid))}} selected{{/if}}" data-actor-id="{{uuid}}">
+    <td class="actor-cell-img">
+        <img src="{{img.display}}" alt="{{name.display}}" loading="lazy" class="actor-row-img">
+    </td>
+    <td class="actor-cell-name">
+        <p class="actor-row-text">{{name.display}}</p>
+    </td>
+    <td class="actor-cell-attr">
+        <p class="actor-row-text">{{size.display}}</p>
+    </td>
+    <td class="actor-cell-attr">
+        <p class="actor-row-text">{{agi.display}}</p>
+    </td>
+    <td class="actor-cell-attr">
+        <p class="actor-row-text">{{sma.display}}</p>
+    </td>
+    <td class="actor-cell-attr">
+        <p class="actor-row-text">{{spi.display}}</p>
+    </td>
+    <td class="actor-cell-attr">
+        <p class="actor-row-text">{{str.display}}</p>
+    </td>
+    <td class="actor-cell-attr">
+        <p class="actor-row-text">{{vig.display}}</p>
+    </td>
+</tr>
+{{/each}}

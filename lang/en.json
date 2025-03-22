@@ -1,0 +1,23 @@
+{
+    "ACTOR_BROWSER.ActorBrowser": "Actor Browser",
+    "ACTOR_BROWSER.OpenActorBrowser": "Open Actor Browser",
+    "ACTOR_BROWSER.FilterSource": "Filter Source:",
+    "ACTOR_BROWSER.WorldCompendium": "World Compendium",
+    "ACTOR_BROWSER.FilterWorldActors": "World Actors",
+    "ACTOR_BROWSER.Select": "Select",
+    "ACTOR_BROWSER.Open": "Open",
+    "ACTOR_BROWSER.Close": "Close",
+    
+    "ACTOR_BROWSER.Name": "Name",
+    "ACTOR_BROWSER.Size": "Size",
+    "ACTOR_BROWSER.Agi": "Agi",
+    "ACTOR_BROWSER.Sma": "Sma",
+    "ACTOR_BROWSER.Spi": "Spi",
+    "ACTOR_BROWSER.Str": "Str",
+    "ACTOR_BROWSER.Vig": "Vig",
+    
+    "ACTOR_BROWSER.WaitError": "Actor Browser was used as a selector but the requester did not wait for the results.",
+    
+    "ACTOR_BROWSER.Settings.ShowOnActorDirectoryN": "Show on Actors Tab",
+    "ACTOR_BROWSER.Settings.ShowOnActorDirectoryH": "If enabled, a button to open the Actor Browser will be added to the Actors tab"
+}
