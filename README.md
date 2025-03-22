@@ -8,7 +8,7 @@ Selecting an actor opens its actor sheet and the browser supports drag and drop.
 
 The browser will work for all systems but has specific support for swade, dnd5e, and pf2e.
 
-<img src="https://github.com/ddbrown30/actor-browser/blob/main/actor_browser.webp" width="500">
+<img src="https://github.com/ddbrown30/actor-browser/blob/main/actor_browser.webp" width="700">
 
 ### API Use
 
