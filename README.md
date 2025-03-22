@@ -20,6 +20,11 @@ To do so, you just need to call the following function:
 
 The result will contain the UUID of the selected actor. The `selector: true` option tells the browser to select and return an actor rather than using the default behaviour of opening the actor sheet.
 
+### Options
+
+- `actorTypes` This is an array of strings that allows you to limit the valid actor types e.g. `{ actorType: ["npc"] }`
+- `worldActorsOnly` If set to true, World Actors will be set as the default source filter and will be the only option in the list  
+
 ## Adding a New System
 
 If you would like to add support for a new system, the process is relatively straightforward. I would suggest having a look at swade.js as an example.
