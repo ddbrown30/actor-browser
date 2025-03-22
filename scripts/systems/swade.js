@@ -3,7 +3,7 @@ import { BaseSystem } from "./base-system.js";
 
 export class Swade extends BaseSystem {
 
-    getActorListTemplate() {        
+    getActorListTemplate() {
         return `${PATH}/templates/partials/actor-list-swade.hbs`;
     }
 
@@ -23,9 +23,9 @@ export class Swade extends BaseSystem {
         for (const actor of actors) {
             let data = {
                 uuid: actor.uuid,
-                img: { display: actor.img, sortValue: undefined},
-                name: { display: actor.name, sortValue: actor.name},
-                size: { display: actor.system.stats.size, sortValue: actor.system.stats.size},
+                img: { display: actor.img, sortValue: undefined },
+                name: { display: actor.name, sortValue: actor.name },
+                size: { display: actor.system.stats.size, sortValue: actor.system.stats.size },
                 agi: this.getDieColumnData(actor.system.attributes.agility.die),
                 sma: this.getDieColumnData(actor.system.attributes.smarts.die),
                 spi: this.getDieColumnData(actor.system.attributes.spirit.die),
@@ -49,6 +49,6 @@ export class Swade extends BaseSystem {
             display += die.modifier;
         }
 
-        return {display, sortValue};
+        return { display, sortValue };
     }
 }
