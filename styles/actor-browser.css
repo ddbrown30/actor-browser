@@ -67,6 +67,10 @@
     padding: unset;
 }
 
+.actor-browser-dialog [data-sort-id]:hover {
+    text-shadow: 0 0 8px var(--color-shadow-primary);
+}
+
 .actor-browser-dialog table td {
     padding: 0.1rem;
 }
