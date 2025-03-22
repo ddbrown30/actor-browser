@@ -57,15 +57,14 @@ export class Utils {
      * Loads templates for partials
      */
     static async loadTemplates() {
-        const templates = [
-            game.actorBrowser.systemHandler.getAdditionalFiltersTemplate(),
-            game.actorBrowser.systemHandler.getActorListTemplate(),
-        ];
-        let ret = await loadTemplates(templates);
-        if (ret[0]) {
-            Handlebars.registerPartial("additionalFiltersPartial", ret[0]);
+        let listPartial = await loadTemplates([game.actorBrowser.systemHandler.getActorListTemplate()]);
+        Handlebars.registerPartial("actorListPartial", listPartial[0]);
+        
+        let filtersTemplate = game.actorBrowser.systemHandler.getAdditionalFiltersTemplate();
+        if (filtersTemplate) {
+            let filtersPartial = await loadTemplates([filtersTemplate]);
+            Handlebars.registerPartial("additionalFiltersPartial", filtersPartial[0]);
         }
-        Handlebars.registerPartial("actorListPartial", ret[1]);
     }
 
     static showNotification(type, message, options) {

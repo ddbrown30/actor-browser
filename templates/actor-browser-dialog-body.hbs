@@ -6,7 +6,7 @@
                 {{selectOptions sources selected=sourceFilter localize=true valueAttr="id" labelAttr="label"}}
             </select>
         </div>
-        {{> additionalFiltersPartial additionalFiltersData=additionalFiltersData}}
+        {{#> additionalFiltersPartial additionalFiltersData=additionalFiltersData}}{{/additionalFiltersPartial}}
     </div>
     <div class="search-panel">
         <div class="search-input">
