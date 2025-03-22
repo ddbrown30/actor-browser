@@ -1,0 +1,6 @@
+<div class="type-filter filter-row">
+    <label for="type-filter">{{{localize "ACTOR_BROWSER.FilterType"}}}</label>
+    <select id="type-filter" name="type-filter" type="dropdown" placeholder="Filter Type...">
+        {{selectOptions additionalFiltersData.actorTypes selected=additionalFiltersData.typeFilter localize=true valueAttr="id" labelAttr="label"}}
+    </select>
+</div>

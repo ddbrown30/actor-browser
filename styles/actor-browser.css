@@ -45,7 +45,7 @@
     text-align: center;
 }
 
-.actor-browser-dialog .source-filter {
+.actor-browser-dialog .filter-row {
     display: flex;
     align-items: center;
     justify-content: space-between;

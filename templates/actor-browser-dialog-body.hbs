@@ -2,10 +2,11 @@
     <div class="filter-panel">
         <div class="source-filter filter-row">
             <label for="source-filter">{{{localize "ACTOR_BROWSER.FilterSource"}}}</label>
-            <select id="source-filter" name="source-filter" type="dropdown" placeholder="Filter Source..." class="">
+            <select id="source-filter" name="source-filter" type="dropdown" placeholder="Filter Source...">
                 {{selectOptions sources selected=sourceFilter localize=true valueAttr="id" labelAttr="label"}}
             </select>
         </div>
+        {{> additionalFiltersPartial additionalFiltersData=additionalFiltersData}}
     </div>
     <div class="search-panel">
         <div class="search-input">

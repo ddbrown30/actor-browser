@@ -57,7 +57,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         let sources = [];
 
         //Add a "nothing" default and the world actors to the sources list
-        sources.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAll") });
+        sources.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllActors") });
         sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterWorldActors") });
 
         //Grab the actors that are local to this world
@@ -81,6 +81,8 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         let filteredRows = this.filterRows(this.rowData);
 
         let selectButtonString = this.getSelectButtonString();
+        
+        let additionalFiltersData = this.systemHandler.getAdditionalFiltersData();
 
         return {
             sources: sources,
@@ -89,6 +91,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             actors: filteredRows,
             selectedActor: this.selectedActor,
             selectButtonString: selectButtonString,
+            additionalFiltersData: additionalFiltersData,
         };
     };
 
@@ -137,6 +140,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         });
 
         this.activateTableListeners(this.element);
+        this.systemHandler.activateListeners(this);
     }
 
     activateTableListeners(element) {

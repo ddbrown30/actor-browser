@@ -3,6 +3,10 @@ import { PATH } from "../module-config.js";
 
 export class BaseSystem {
 
+    getAdditionalFiltersTemplate() {
+        return "";
+    }
+
     getActorListTemplate() {        
         return `${PATH}/templates/partials/actor-list-base.hbs`;
     }
@@ -40,5 +44,12 @@ export class BaseSystem {
         }
 
         return rowData;
+    }
+    
+    getAdditionalFiltersData() {
+        return {};
+    }
+
+    activateListeners(element) {
     }
 } 
