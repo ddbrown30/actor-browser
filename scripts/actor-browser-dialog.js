@@ -29,7 +29,6 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
 
     constructor(options = {}) {
         super(options);
-        this.selector = !!options.selector;
 
         this.dragDrop = new DragDrop({
             dragSelector: '.actor-option',
@@ -56,17 +55,24 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         let actors = [];
         let sources = [];
 
-        //Add a "nothing" default and the world actors to the sources list
-        sources.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllActors") });
-        sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterWorldActors") });
+        if (this.options.worldActorsOnly) {
+            this.sourceFilter = ActorBrowserDialog.WORLD_ACTORS_ID;
+            sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterWorldActors") });
+        } else {
+            //Add a "nothing" default and the world actors to the sources list
+            sources.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllActors") });
+            sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterWorldActors") });
+        }
 
         //Grab the actors that are local to this world
         actors = actors.concat(...this.getWorldActors());
 
-        //Grab all actors from compendiums
-        let packActors = await this.getPackActors();
-        sources = sources.concat(...packActors.sources);
-        actors = actors.concat(...packActors.actors);
+        if (!this.options.worldActorsOnly) {
+            //Grab all actors from compendiums
+            let packActors = await this.getPackActors();
+            sources = sources.concat(...packActors.sources);
+            actors = actors.concat(...packActors.actors);
+        }
 
         this.search = this.search ?? "";
         this.sourceFilter = this.sourceFilter ?? sources[0].id;
@@ -82,7 +88,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
 
         let selectButtonString = this.getSelectButtonString();
         
-        let additionalFiltersData = this.systemHandler.getAdditionalFiltersData();
+        let additionalFiltersData = this.systemHandler.getAdditionalFiltersData(this);
 
         return {
             sources: sources,
@@ -209,7 +215,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             let packIndex = await pack.getIndex({ fields: this.systemHandler.getIndexFields() });
             if (packIndex.size == 0) continue;
 
-            packIndex = this.systemHandler.filterActors(packIndex);
+            packIndex = this.filterActorsByType(packIndex);
             if (packIndex.length == 0) continue;
 
             actors = actors.concat(...packIndex);
@@ -232,7 +238,25 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             actors.push(actor);
         }
 
+        actors = this.filterActorsByType(actors);
         return actors;
+    }
+
+    filterActorsByType(actors) {
+        let filtered = actors;
+        
+        //Remove invalid actor types
+        const actorTypes = this.systemHandler.getActorTypes();
+        if (actorTypes.length) {
+            filtered = filtered.filter((a) => actorTypes.includes(a.type));
+        }
+
+        //If the dialog has limited the available types, remove them here
+        if (this.options.actorTypes?.length) {
+            filtered = filtered.filter((a) => this.options.actorTypes.includes(a.type));
+        }
+        
+        return filtered;
     }
 
     filterActors(actors) {
@@ -285,7 +309,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
     }
 
     getSelectButtonString() {
-        let selectButtonString = game.i18n.localize(this.selector ? "ACTOR_BROWSER.Select" : "ACTOR_BROWSER.Open");
+        let selectButtonString = game.i18n.localize(this.options.selector ? "ACTOR_BROWSER.Select" : "ACTOR_BROWSER.Open");
         if (this.selectedActor) {
             let actor = this.rowData.find((a) => a.uuid == this.selectedActor);
             selectButtonString += " " + actor.name.display;
@@ -313,7 +337,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
     }
 
     async select() {
-        if (this.selector) {
+        if (this.options.selector) {
             Utils.showNotification("error", game.i18n.localize("ACTOR_BROWSER.WaitError"));
             this.close();
             return;

@@ -19,16 +19,8 @@ export class BaseSystem {
         return [];
     }
 
-    filterActors(actors) {
-        let filtered = actors;
-        
-        //Remove invalid actor types
-        const actorTypes = this.getActorTypes();
-        if (actorTypes.length) {
-            filtered = filtered.filter((a) => actorTypes.includes(a.type));
-        }
-        
-        return filtered;
+    filterActors(actors) {        
+        return actors;
     }
 
     buildRowData(actors) {
@@ -46,10 +38,10 @@ export class BaseSystem {
         return rowData;
     }
     
-    getAdditionalFiltersData() {
+    getAdditionalFiltersData(browserDialog) {
         return {};
     }
 
-    activateListeners(element) {
+    activateListeners(browserDialog) {
     }
 } 

@@ -73,7 +73,7 @@ export class Swade extends BaseSystem {
         return { display, sortValue };
     }
     
-    getAdditionalFiltersData() {
+    getAdditionalFiltersData(browserDialog) {
         let actorTypes = [];
         actorTypes.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllTypes") });
         actorTypes.push({ id: "character", label: game.i18n.localize("ACTOR_BROWSER.FilterPCs") });
