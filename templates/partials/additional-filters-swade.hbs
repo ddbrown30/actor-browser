@@ -16,3 +16,9 @@
         {{selectOptions additionalFiltersData.abilities selected=additionalFiltersData.abilityFilter localize=true valueAttr="id" labelAttr="label"}}
     </select>
 </div>
+<div class="pace-filter filter-row">
+    <label for="pace-filter">{{{localize "ACTOR_BROWSER.FilterPace"}}}</label>
+    <select id="pace-filter" name="pace-filter" type="dropdown" placeholder="Filter Pace...">
+        {{selectOptions additionalFiltersData.paces selected=additionalFiltersData.paceFilter localize=true valueAttr="id" labelAttr="label"}}
+    </select>
+</div>

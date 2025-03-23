@@ -15,6 +15,7 @@ export class Swade extends BaseSystem {
         return [
             "system.stats.size",
             "system.size",
+            "system.pace",
             "system.attributes",
             "items",
         ];
@@ -40,6 +41,33 @@ export class Swade extends BaseSystem {
         //Filter by edge
         if (this.abilityFilter) {
             filtered = filtered.filter((a) => a.items.find((i) => i.name == this.abilityFilter));
+        }
+
+        //Filter by pace
+        if (this.paceFilter) {
+            let paceFilter = this.paceFilter;
+            filtered.sort((a, b) => a.name.localeCompare(b.name))
+            filtered = filtered.filter(function (a) {
+                //If we have no pace value, it means we're looking at something from a compendium that has not been migrated
+                //As ground was previously the only pace, we'll assume that this actor has a ground pace
+                if (!a.system.pace && paceFilter == "ground") return true;
+
+                if (a.system.pace?.[paceFilter] > 0) return true;
+                
+                if (paceFilter == "fly") {
+                    //If we don't have a fly pace but we do have a Flight ability, consider us as having a fly pace
+                    return a.items.find((i) => i.name.toLowerCase().includes("flight"));
+                }
+                if (paceFilter == "swim") {
+                    //If we don't have a swim pace but we do have a Aquatic ability, consider us as having a swim pace
+                    return a.items.find((i) => i.name.toLowerCase().includes("aquatic"));
+                }
+                if (paceFilter == "burrow") {
+                    //If we don't have a fly pace but we do have a Burrow ability, consider us as having a burrow pace
+                    return a.items.find((i) => i.name.toLowerCase().includes("burrow"));
+                }
+                return false;
+            });
         }
 
         return filtered;
@@ -90,6 +118,13 @@ export class Swade extends BaseSystem {
 
         let edges = this.buildItemList(actors, "edge", "ACTOR_BROWSER.FilterAllEdges");
         let abilities = this.buildItemList(actors, "ability", "ACTOR_BROWSER.FilterAllAbilities");
+        
+        let paces = [];
+        paces.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllPaces") });
+        paces.push({ id: "ground", label: game.i18n.localize("SWADE.Movement.Pace.Ground.Label") });
+        paces.push({ id: "fly", label: game.i18n.localize("SWADE.Movement.Pace.Fly.Label") });
+        paces.push({ id: "swim", label: game.i18n.localize("SWADE.Movement.Pace.Swim.Label") });
+        paces.push({ id: "burrow", label: game.i18n.localize("SWADE.Movement.Pace.Burrow.Label") });
 
         return {
             actorTypes: actorTypes,
@@ -98,6 +133,8 @@ export class Swade extends BaseSystem {
             edgeFilter: this.edgeFilter,
             abilities: abilities,
             abilityFilter: this.abilityFilter,
+            paces: paces,
+            paceFilter: this.paceFilter,
         };
     }
 
@@ -116,27 +153,19 @@ export class Swade extends BaseSystem {
     }
 
     activateListeners(browserDialog) {
+        this.addDropdownListener("type", "typeFilter", browserDialog);
+        this.addDropdownListener("edge", "edgeFilter", browserDialog);
+        this.addDropdownListener("ability", "abilityFilter", browserDialog);
+        this.addDropdownListener("pace", "paceFilter", browserDialog);
+    }
+
+    addDropdownListener(type, filterProperty, browserDialog) {
         //Add the listener to the type dropdown
-        const filterSelector = browserDialog.element.querySelector('select[id="type-filter"]');
-        filterSelector.addEventListener("change", event => {
+        let selectorString = 'select[id="' + type + '-filter"]';
+        const selector = browserDialog.element.querySelector(selectorString);
+        selector.addEventListener("change", event => {
             const selection = $(event.target).find("option:selected");
-            this.typeFilter = selection.val();
-            browserDialog.render();
-        });
-
-        //Add the listener to the edge dropdown
-        const edgeSelector = browserDialog.element.querySelector('select[id="edge-filter"]');
-        edgeSelector.addEventListener("change", event => {
-            const selection = $(event.target).find("option:selected");
-            this.edgeFilter = selection.val();
-            browserDialog.render();
-        });
-
-        //Add the listener to the ability dropdown
-        const abilitySelector = browserDialog.element.querySelector('select[id="ability-filter"]');
-        abilitySelector.addEventListener("change", event => {
-            const selection = $(event.target).find("option:selected");
-            this.abilityFilter = selection.val();
+            this[filterProperty] = selection.val();
             browserDialog.render();
         });
     }
