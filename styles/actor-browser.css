@@ -1,3 +1,6 @@
+.actor-browser-dialog .window-content {
+    padding: 0.3rem;
+}
 .actor-browser-dialog .actor-list {
     padding: unset;
 }
@@ -30,18 +33,19 @@
 }
 
 .actor-browser-dialog .filter-panel {
-    flex: 0 1 275px;
+    flex: 0 1 250px;
 }
 
 .actor-browser-dialog .filter-row {
     padding: 0.1rem 0.5rem;
 }
 
+
 .actor-browser-dialog main {
     column-count: 2;
     display: flex;
     flex-direction: row;
-    min-height: calc(600px - 6rem - 2px);
+    min-height: calc(600px - var(--header-height) - 0.6rem - 2rem); /*Window height minus the header minus padding minus the footer height*/
     text-align: center;
 }
 
