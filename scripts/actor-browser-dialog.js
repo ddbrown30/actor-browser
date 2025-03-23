@@ -36,6 +36,9 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
                 dragstart: this.onDragStart.bind(this),
             }
         });
+
+        this.systemHandler = game.actorBrowser.systemHandler;
+        this.systemHandler.onOpenBrowser(this);
     }
 
     onDragStart(event) {
@@ -50,8 +53,6 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
     }
 
     async _prepareContext(_options) {
-        this.systemHandler = game.actorBrowser.systemHandler;
-
         let actors = [];
         let sources = [];
 

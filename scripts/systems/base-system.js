@@ -50,8 +50,12 @@ export class BaseSystem {
         const selector = browserDialog.element.querySelector(selectorString);
         selector.addEventListener("change", event => {
             const selection = $(event.target).find("option:selected");
-            this[filterProperty] = selection.val();
+            this.filters[filterProperty] = selection.val();
             browserDialog.render();
         });
+    }
+
+    onOpenBrowser() {
+        this.filters = {}; 
     }
 } 

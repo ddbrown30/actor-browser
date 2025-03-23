@@ -27,13 +27,13 @@ export class DnD5e extends BaseSystem {
         let filtered = super.filterActors(actors);
 
         //Filter by speed
-        if (this.speedFilter) {
-            filtered = filtered.filter((a) => a.system.attributes.movement[this.speedFilter] > 0 );
+        if (this.filters.speedFilter) {
+            filtered = filtered.filter((a) => a.system.attributes.movement[this.filters.speedFilter] > 0 );
         }
 
         //Filter by sense
-        if (this.senseFilter) {
-            filtered = filtered.filter((a) => a.system.attributes.senses[this.senseFilter] > 0 );
+        if (this.filters.senseFilter) {
+            filtered = filtered.filter((a) => a.system.attributes.senses[this.filters.senseFilter] > 0 );
         }
 
         return filtered;
@@ -131,9 +131,8 @@ export class DnD5e extends BaseSystem {
 
         return {
             speeds: speeds,
-            speedFilter: this.speedFilter,
             senses: senses,
-            senseFilter: this.senseFilter,
+            filters: this.filters,
         };
     }
 

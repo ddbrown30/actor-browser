@@ -29,23 +29,23 @@ export class Swade extends BaseSystem {
         let filtered = super.filterActors(actors);
 
         //Filter by type
-        if (this.typeFilter) {
-            filtered = filtered.filter((a) => a.type == this.typeFilter);
+        if (this.filters.typeFilter) {
+            filtered = filtered.filter((a) => a.type == this.filters.typeFilter);
         }
 
         //Filter by edge
-        if (this.edgeFilter) {
-            filtered = filtered.filter((a) => a.items.find((i) => i.name == this.edgeFilter));
+        if (this.filters.edgeFilter) {
+            filtered = filtered.filter((a) => a.items.find((i) => i.name == this.filters.edgeFilter));
         }
 
         //Filter by edge
-        if (this.abilityFilter) {
-            filtered = filtered.filter((a) => a.items.find((i) => i.name == this.abilityFilter));
+        if (this.filters.abilityFilter) {
+            filtered = filtered.filter((a) => a.items.find((i) => i.name == this.filters.abilityFilter));
         }
 
         //Filter by pace
-        if (this.paceFilter) {
-            let paceFilter = this.paceFilter;
+        if (this.filters.paceFilter) {
+            let paceFilter = this.filters.paceFilter;
             filtered.sort((a, b) => a.name.localeCompare(b.name))
             filtered = filtered.filter(function (a) {
                 //If we have no pace value, it means we're looking at something from a compendium that has not been migrated
@@ -128,13 +128,10 @@ export class Swade extends BaseSystem {
 
         return {
             actorTypes: actorTypes,
-            typeFilter: this.typeFilter,
             edges: edges,
-            edgeFilter: this.edgeFilter,
             abilities: abilities,
-            abilityFilter: this.abilityFilter,
             paces: paces,
-            paceFilter: this.paceFilter,
+            filters: this.filters,
         };
     }
 
