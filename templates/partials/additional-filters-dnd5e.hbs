@@ -1,0 +1,12 @@
+<div class="speed-filter filter-row">
+    <label for="speed-filter">{{{localize "ACTOR_BROWSER.FilterSpeed"}}}</label>
+    <select id="speed-filter" name="speed-filter" type="dropdown" placeholder="Filter Speed...">
+        {{selectOptions additionalFiltersData.speeds selected=additionalFiltersData.speedFilter localize=true valueAttr="id" labelAttr="label"}}
+    </select>
+</div>
+<div class="sense-filter filter-row">
+    <label for="sense-filter">{{{localize "ACTOR_BROWSER.FilterSense"}}}</label>
+    <select id="sense-filter" name="sense-filter" type="dropdown" placeholder="Filter Sense...">
+        {{selectOptions additionalFiltersData.senses selected=additionalFiltersData.senseFilter localize=true valueAttr="id" labelAttr="label"}}
+    </select>
+</div>

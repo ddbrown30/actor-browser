@@ -30,7 +30,7 @@
 }
 
 .actor-browser-dialog .filter-panel {
-    flex: 0 1 300px;
+    flex: 0 1 275px;
 }
 
 .actor-browser-dialog .filter-row {
@@ -97,9 +97,12 @@
 }
 
 .actor-browser-dialog .actor-cell-img {
-    width: 50px;
-    column-width: 50px;
+    width: 55px;
     padding-left: 0.2rem;
+}
+
+.actor-browser-dialog .actor-cell-name {
+    width: 150px;
 }
 
 .actor-browser-dialog .actor-cell-attr {
@@ -107,15 +110,25 @@
 }
 
 .actor-browser-dialog .actor-cell-dndsize {
-    width: 100px;
+    width: 80px;
+}
+
+.actor-browser-dialog .actor-cell-dndspeed {
+    width: 75px;
+    white-space: pre-line;
+}
+
+.actor-browser-dialog .actor-cell-dndsenses {
+    width: 105px;
+    white-space: pre-line;
 }
 
 .actor-browser-dialog .actor-cell-dndalignment {
-    width: 150px;
+    width: 100px;
 }
 
 .actor-browser-dialog .actor-cell-dndtype {
-    width: 100px;
+    width: 80px;
 }
 
 .actor-browser-dialog .actor-cell-pf2etraits {

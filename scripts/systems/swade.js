@@ -153,20 +153,9 @@ export class Swade extends BaseSystem {
     }
 
     activateListeners(browserDialog) {
-        this.addDropdownListener("type", "typeFilter", browserDialog);
-        this.addDropdownListener("edge", "edgeFilter", browserDialog);
-        this.addDropdownListener("ability", "abilityFilter", browserDialog);
-        this.addDropdownListener("pace", "paceFilter", browserDialog);
-    }
-
-    addDropdownListener(type, filterProperty, browserDialog) {
-        //Add the listener to the type dropdown
-        let selectorString = 'select[id="' + type + '-filter"]';
-        const selector = browserDialog.element.querySelector(selectorString);
-        selector.addEventListener("change", event => {
-            const selection = $(event.target).find("option:selected");
-            this[filterProperty] = selection.val();
-            browserDialog.render();
-        });
+        super.addDropdownListener("type", "typeFilter", browserDialog);
+        super.addDropdownListener("edge", "edgeFilter", browserDialog);
+        super.addDropdownListener("ability", "abilityFilter", browserDialog);
+        super.addDropdownListener("pace", "paceFilter", browserDialog);
     }
 }

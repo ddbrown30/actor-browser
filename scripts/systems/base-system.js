@@ -44,4 +44,14 @@ export class BaseSystem {
 
     activateListeners(browserDialog) {
     }
+
+    addDropdownListener(type, filterProperty, browserDialog) {
+        let selectorString = 'select[id="' + type + '-filter"]';
+        const selector = browserDialog.element.querySelector(selectorString);
+        selector.addEventListener("change", event => {
+            const selection = $(event.target).find("option:selected");
+            this[filterProperty] = selection.val();
+            browserDialog.render();
+        });
+    }
 } 

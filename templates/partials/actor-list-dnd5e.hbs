@@ -1,17 +1,30 @@
+<colgroup>
+    <col class="actor-cell-img" />
+    <col class="actor-cell-name" />
+    <col /> {{!-- This combined with the colspan="2" below lets us fake a min-width on the name column --}}
+    <col class="actor-cell-attr" />
+    <col class="actor-cell-dndtype" />
+    <col class="actor-cell-dndsize" />
+    <col class="actor-cell-dndspeed" />
+    <col class="actor-cell-dndsenses" />
+    <col class="actor-cell-dndalignment" />
+</colgroup>
 <tr class="actor-header">
-    <th id="column-img" class="actor-cell-img"></th>
-    <th id="column-name" class="actor-cell-name" data-sort-id="name">{{{localize "ACTOR_BROWSER.Name"}}}</th>
-    <th id="column-cr" class="actor-cell-attr" data-sort-id="cr">{{{localize "ACTOR_BROWSER.CR"}}}</th>
-    <th id="column-type" class="actor-cell-dndtype" data-sort-id="type">{{{localize "ACTOR_BROWSER.Type"}}}</th>
-    <th id="column-size" class="actor-cell-dndsize" data-sort-id="size">{{{localize "ACTOR_BROWSER.Size"}}}</th>
-    <th id="column-alignment" class="actor-cell-dndalignment" data-sort-id="alignment">{{{localize "ACTOR_BROWSER.Alignment"}}}</th>
+    <th></th>
+    <th colspan="2" data-sort-id="name">{{{localize "ACTOR_BROWSER.Name"}}}</th>
+    <th data-sort-id="cr">{{{localize "ACTOR_BROWSER.CR"}}}</th>
+    <th data-sort-id="type">{{{localize "ACTOR_BROWSER.Type"}}}</th>
+    <th data-sort-id="size">{{{localize "ACTOR_BROWSER.Size"}}}</th>
+    <th>{{{localize "ACTOR_BROWSER.Speed"}}}</th>
+    <th>{{{localize "ACTOR_BROWSER.Senses"}}}</th>
+    <th data-sort-id="alignment">{{{localize "ACTOR_BROWSER.Alignment"}}}</th>
 </tr>
 {{#each actors}}
 <tr class="actor-option{{#if (and ../selectedActor (eq ../selectedActor uuid))}} selected{{/if}}" data-actor-id="{{uuid}}">
     <td class="actor-cell-img">
         <img src="{{img.display}}" alt="{{name.display}}" loading="lazy" class="actor-row-img">
     </td>
-    <td class="actor-cell-name">
+    <td class="actor-cell-name" colspan="2">
         <p class="actor-row-text">{{name.display}}</p>
     </td>
     <td class="actor-cell-attr">
@@ -22,6 +35,12 @@
     </td>
     <td class="actor-cell-dndsize">
         <p class="actor-row-text">{{size.display}}</p>
+    </td>
+    <td class="actor-cell-dndspeed">
+        <p class="actor-row-text">{{speed.display}}</p>
+    </td>
+    <td class="actor-cell-dndsenses">
+        <p class="actor-row-text">{{senses.display}}</p>
     </td>
     <td class="actor-cell-dndalignment">
         <p class="actor-row-text">{{alignment.display}}</p>

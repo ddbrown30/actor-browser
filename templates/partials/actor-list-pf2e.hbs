@@ -1,16 +1,24 @@
+<colgroup>
+    <col class="actor-cell-img" />
+    <col class="actor-cell-name" />
+    <col /> {{!-- This combined with the colspan="2" below lets us fake a min-width on the name column --}}
+    <col class="actor-cell-attr" />
+    <col class="actor-cell-pf2etraits" />
+    <col class="actor-cell-dndsize" />
+</colgroup>
 <tr class="actor-header">
-    <th id="column-img" class="actor-cell-img"></th>
-    <th id="column-name" class="actor-cell-name" data-sort-id="name">{{{localize "ACTOR_BROWSER.Name"}}}</th>
-    <th id="column-level" class="actor-cell-attr" data-sort-id="level">{{{localize "ACTOR_BROWSER.Level"}}}</th>
-    <th id="column-traits" class="actor-cell-pf2etraits">{{{localize "ACTOR_BROWSER.Traits"}}}</th>
-    <th id="column-size" class="actor-cell-dndsize" data-sort-id="size">{{{localize "ACTOR_BROWSER.Size"}}}</th>
+    <th></th>
+    <th colspan="2" data-sort-id="name">{{{localize "ACTOR_BROWSER.Name"}}}</th>
+    <th data-sort-id="level">{{{localize "ACTOR_BROWSER.Level"}}}</th>
+    <th>{{{localize "ACTOR_BROWSER.Traits"}}}</th>
+    <th data-sort-id="size">{{{localize "ACTOR_BROWSER.Size"}}}</th>
 </tr>
 {{#each actors}}
 <tr class="actor-option{{#if (and ../selectedActor (eq ../selectedActor uuid))}} selected{{/if}}" data-actor-id="{{uuid}}">
     <td class="actor-cell-img">
         <img src="{{img.display}}" alt="{{name.display}}" loading="lazy" class="actor-row-img">
     </td>
-    <td class="actor-cell-name">
+    <td class="actor-cell-name" colspan="2">
         <p class="actor-row-text">{{name.display}}</p>
     </td>
     <td class="actor-cell-attr">

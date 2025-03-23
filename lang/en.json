@@ -6,6 +6,8 @@
     "ACTOR_BROWSER.FilterEdge": "Filter Edge:",
     "ACTOR_BROWSER.FilterAbility": "Filter Ability:",
     "ACTOR_BROWSER.FilterPace": "Filter Pace:",
+    "ACTOR_BROWSER.FilterSpeed": "Filter Speed:",
+    "ACTOR_BROWSER.FilterSense": "Filter Sense:",
     "ACTOR_BROWSER.WorldCompendium": "World Compendium",
     "ACTOR_BROWSER.FilterAllActors": "All Actors",
     "ACTOR_BROWSER.FilterWorldActors": "World Actors",
@@ -13,6 +15,8 @@
     "ACTOR_BROWSER.FilterAllEdges": "All Edges",
     "ACTOR_BROWSER.FilterAllAbilities": "All Abilities",
     "ACTOR_BROWSER.FilterAllPaces": "All Paces",
+    "ACTOR_BROWSER.FilterAllSpeeds": "All Speeds",
+    "ACTOR_BROWSER.FilterAllSenses": "All Senses",
     "ACTOR_BROWSER.FilterPCs": "Player Characters",
     "ACTOR_BROWSER.FilterNPCs": "NPCs",
     "ACTOR_BROWSER.FilterVehicles": "Vehicles",
@@ -32,6 +36,8 @@
     "ACTOR_BROWSER.Alignment": "Alignment",
     "ACTOR_BROWSER.Traits": "Traits",
     "ACTOR_BROWSER.Level": "Level",
+    "ACTOR_BROWSER.Speed": "Speed",
+    "ACTOR_BROWSER.Senses": "Senses",
     
     "ACTOR_BROWSER.None": "None",
     

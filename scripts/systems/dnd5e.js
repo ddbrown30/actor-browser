@@ -3,6 +3,10 @@ import { BaseSystem } from "./base-system.js";
 
 export class DnD5e extends BaseSystem {
 
+    getAdditionalFiltersTemplate() {
+        return `${PATH}/templates/partials/additional-filters-dnd5e.hbs`;
+    }
+
     getActorListTemplate() {
         return `${PATH}/templates/partials/actor-list-dnd5e.hbs`;
     }
@@ -11,11 +15,28 @@ export class DnD5e extends BaseSystem {
         return [
             "system.details",
             "system.traits",
+            "system.attributes",
         ];
     }
 
     getActorTypes() {
         return ["character", "npc"];
+    }
+
+    filterActors(actors) {
+        let filtered = super.filterActors(actors);
+
+        //Filter by speed
+        if (this.speedFilter) {
+            filtered = filtered.filter((a) => a.system.attributes.movement[this.speedFilter] > 0 );
+        }
+
+        //Filter by sense
+        if (this.senseFilter) {
+            filtered = filtered.filter((a) => a.system.attributes.senses[this.senseFilter] > 0 );
+        }
+
+        return filtered;
     }
 
     buildRowData(actors) {
@@ -30,6 +51,8 @@ export class DnD5e extends BaseSystem {
                 cr: { display: cr, sortValue: cr },
                 type: this.getTypeColumnData(actor.system.details.type?.value),
                 size: this.getSizeColumnData(actor.system.traits.size),
+                speed: this.getSpeedColumnData(actor.system.attributes.movement),
+                senses: this.getSenseColumnData(actor.system.attributes.senses),
                 alignment: { display: actor.system.details.alignment, sortValue: actor.system.details.alignment },
             };
 
@@ -55,5 +78,67 @@ export class DnD5e extends BaseSystem {
         let sortValue = display;
 
         return { display, sortValue };
+    }
+
+    getSpeedColumnData(movement) {
+        let display = "";
+        for (let [type, value] of Object.entries(movement)) {
+            if (!value || !CONFIG.DND5E.movementTypes.hasOwnProperty(type)) continue;
+
+            if (display) {
+                display += "\n";
+            }
+            display += CONFIG.DND5E.movementTypes[type] + " " + value;
+        }
+        
+        if (!display) {
+            display = game.i18n.localize("ACTOR_BROWSER.None");
+        }
+
+        return { display, sortValue: undefined };
+    }
+
+    getSenseColumnData(senses) {
+        let display = "";
+        for (let [type, value] of Object.entries(senses)) {
+            if (!value || !CONFIG.DND5E.senses.hasOwnProperty(type)) continue;
+
+            if (display) {
+                display += "\n";
+            }
+            display += CONFIG.DND5E.senses[type] + " " + value;
+        }
+        
+        if (!display) {
+            display = game.i18n.localize("ACTOR_BROWSER.None");
+        }
+
+        return { display, sortValue: undefined };
+    }
+
+    getAdditionalFiltersData(browserDialog, actors) {
+        let speeds = [];
+        speeds.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllSpeeds") });
+        for (let [type, value] of Object.entries(CONFIG.DND5E.movementTypes)) {
+            speeds.push({ id: type, label: value });
+        }
+        
+        let senses = [];
+        senses.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllSenses") });
+        for (let [type, value] of Object.entries(CONFIG.DND5E.senses)) {
+            senses.push({ id: type, label: value });
+        }
+
+        return {
+            speeds: speeds,
+            speedFilter: this.speedFilter,
+            senses: senses,
+            senseFilter: this.senseFilter,
+        };
+    }
+
+    activateListeners(browserDialog) {
+        super.addDropdownListener("speed", "speedFilter", browserDialog);
+        super.addDropdownListener("sense", "senseFilter", browserDialog);
     }
 }
