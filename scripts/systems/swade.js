@@ -37,6 +37,11 @@ export class Swade extends BaseSystem {
             filtered = filtered.filter((a) => a.items.find((i) => i.name == this.edgeFilter));
         }
         
+        //Filter by edge
+        if (this.abilityFilter) {
+            filtered = filtered.filter((a) => a.items.find((i) => i.name == this.abilityFilter));
+        }
+        
         return filtered;
     }
 
@@ -88,17 +93,26 @@ export class Swade extends BaseSystem {
             let actorEdges = actor.items.filter((i) => i.type == "edge").map((edge) => ({ id: edge.name, label: edge.name }));
             edges = edges.concat(...actorEdges);
         }
-        edges = edges.filter((edge, idx) => edges.findIndex((e) => e.id == edge.id) === idx);
-        
-        edges = edges.sort((a, b) => a.label.localeCompare(b.label) );
-        
+        edges = edges.filter((edge, idx) => edges.findIndex((e) => e.id == edge.id) === idx);        
+        edges = edges.sort((a, b) => a.label.localeCompare(b.label) );        
         edges.unshift({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllEdges") });
+
+        let abilities = [];
+        for (let actor of actors) {
+            let actorAbilities = actor.items.filter((i) => i.type == "ability").map((ability) => ({ id: ability.name, label: ability.name }));
+            abilities = abilities.concat(...actorAbilities);
+        }
+        abilities = abilities.filter((ability, idx) => abilities.findIndex((a) => a.id == ability.id) === idx);        
+        abilities = abilities.sort((a, b) => a.label.localeCompare(b.label) );        
+        abilities.unshift({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllAbilities") });
 
         return {
             actorTypes: actorTypes,
             typeFilter: this.typeFilter,
             edges: edges,
             edgeFilter: this.edgeFilter,
+            abilities: abilities,
+            abilityFilter: this.abilityFilter,
         };
     }
 
@@ -116,6 +130,14 @@ export class Swade extends BaseSystem {
         edgeSelector.addEventListener("change", event => {
             const selection = $(event.target).find("option:selected");
             this.edgeFilter = selection.val();
+            browserDialog.render();
+        });
+        
+        //Add the listener to the ability dropdown
+        const abilitySelector = browserDialog.element.querySelector('select[id="ability-filter"]');
+        abilitySelector.addEventListener("change", event => {
+            const selection = $(event.target).find("option:selected");
+            this.abilityFilter = selection.val();
             browserDialog.render();
         });
     }

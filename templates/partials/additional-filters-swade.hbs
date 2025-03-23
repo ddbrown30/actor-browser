@@ -10,3 +10,9 @@
         {{selectOptions additionalFiltersData.edges selected=additionalFiltersData.edgeFilter localize=true valueAttr="id" labelAttr="label"}}
     </select>
 </div>
+<div class="ability-filter filter-row">
+    <label for="ability-filter">{{{localize "ACTOR_BROWSER.FilterAbility"}}}</label>
+    <select id="ability-filter" name="ability-filter" type="dropdown" placeholder="Filter Ability...">
+        {{selectOptions additionalFiltersData.abilities selected=additionalFiltersData.abilityFilter localize=true valueAttr="id" labelAttr="label"}}
+    </select>
+</div>
