@@ -26,22 +26,22 @@ export class Swade extends BaseSystem {
 
     filterActors(actors) {
         let filtered = super.filterActors(actors);
-        
+
         //Filter by type
         if (this.typeFilter) {
             filtered = filtered.filter((a) => a.type == this.typeFilter);
         }
-        
+
         //Filter by edge
         if (this.edgeFilter) {
             filtered = filtered.filter((a) => a.items.find((i) => i.name == this.edgeFilter));
         }
-        
+
         //Filter by edge
         if (this.abilityFilter) {
             filtered = filtered.filter((a) => a.items.find((i) => i.name == this.abilityFilter));
         }
-        
+
         return filtered;
     }
 
@@ -80,7 +80,7 @@ export class Swade extends BaseSystem {
 
         return { display, sortValue };
     }
-    
+
     getAdditionalFiltersData(browserDialog, actors) {
         let actorTypes = [];
         actorTypes.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllTypes") });
@@ -88,23 +88,8 @@ export class Swade extends BaseSystem {
         actorTypes.push({ id: "npc", label: game.i18n.localize("ACTOR_BROWSER.FilterNPCs") });
         actorTypes.push({ id: "vehicle", label: game.i18n.localize("ACTOR_BROWSER.FilterVehicles") });
 
-        let edges = [];
-        for (let actor of actors) {
-            let actorEdges = actor.items.filter((i) => i.type == "edge").map((edge) => ({ id: edge.name, label: edge.name }));
-            edges = edges.concat(...actorEdges);
-        }
-        edges = edges.filter((edge, idx) => edges.findIndex((e) => e.id == edge.id) === idx);        
-        edges = edges.sort((a, b) => a.label.localeCompare(b.label) );        
-        edges.unshift({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllEdges") });
-
-        let abilities = [];
-        for (let actor of actors) {
-            let actorAbilities = actor.items.filter((i) => i.type == "ability").map((ability) => ({ id: ability.name, label: ability.name }));
-            abilities = abilities.concat(...actorAbilities);
-        }
-        abilities = abilities.filter((ability, idx) => abilities.findIndex((a) => a.id == ability.id) === idx);        
-        abilities = abilities.sort((a, b) => a.label.localeCompare(b.label) );        
-        abilities.unshift({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllAbilities") });
+        let edges = this.buildItemList(actors, "edge", "ACTOR_BROWSER.FilterAllEdges");
+        let abilities = this.buildItemList(actors, "ability", "ACTOR_BROWSER.FilterAllAbilities");
 
         return {
             actorTypes: actorTypes,
@@ -116,6 +101,20 @@ export class Swade extends BaseSystem {
         };
     }
 
+    buildItemList(actors, type, firstLabel) {
+        let items = [];
+        for (let actor of actors) {
+            let actorItems = actor.items.filter((i) => i.type == type).map((item) => ({ id: item.name, label: item.name }));
+            items = items.concat(...actorItems);
+        }
+
+        items = items.filter((item, idx) => items.findIndex((i) => i.id == item.id) === idx);
+        items = items.sort((a, b) => a.label.localeCompare(b.label));
+        items.unshift({ id: "", label: game.i18n.localize(firstLabel) });
+
+        return items;
+    }
+
     activateListeners(browserDialog) {
         //Add the listener to the type dropdown
         const filterSelector = browserDialog.element.querySelector('select[id="type-filter"]');
@@ -124,7 +123,7 @@ export class Swade extends BaseSystem {
             this.typeFilter = selection.val();
             browserDialog.render();
         });
-        
+
         //Add the listener to the edge dropdown
         const edgeSelector = browserDialog.element.querySelector('select[id="edge-filter"]');
         edgeSelector.addEventListener("change", event => {
@@ -132,7 +131,7 @@ export class Swade extends BaseSystem {
             this.edgeFilter = selection.val();
             browserDialog.render();
         });
-        
+
         //Add the listener to the ability dropdown
         const abilitySelector = browserDialog.element.querySelector('select[id="ability-filter"]');
         abilitySelector.addEventListener("change", event => {
