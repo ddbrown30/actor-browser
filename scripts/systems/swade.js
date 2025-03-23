@@ -16,6 +16,7 @@ export class Swade extends BaseSystem {
             "system.stats.size",
             "system.size",
             "system.attributes",
+            "items",
         ];
     }
 
@@ -28,10 +29,12 @@ export class Swade extends BaseSystem {
         
         //Filter by type
         if (this.typeFilter) {
-            const actorTypes = this.getActorTypes();
-            if (actorTypes.length) {
-                filtered = filtered.filter((a) => a.type == this.typeFilter);
-            }
+            filtered = filtered.filter((a) => a.type == this.typeFilter);
+        }
+        
+        //Filter by edge
+        if (this.edgeFilter) {
+            filtered = filtered.filter((a) => a.items.find((i) => i.name == this.edgeFilter));
         }
         
         return filtered;
@@ -73,16 +76,29 @@ export class Swade extends BaseSystem {
         return { display, sortValue };
     }
     
-    getAdditionalFiltersData(browserDialog) {
+    getAdditionalFiltersData(browserDialog, actors) {
         let actorTypes = [];
         actorTypes.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllTypes") });
         actorTypes.push({ id: "character", label: game.i18n.localize("ACTOR_BROWSER.FilterPCs") });
         actorTypes.push({ id: "npc", label: game.i18n.localize("ACTOR_BROWSER.FilterNPCs") });
         actorTypes.push({ id: "vehicle", label: game.i18n.localize("ACTOR_BROWSER.FilterVehicles") });
 
+        let edges = [];
+        for (let actor of actors) {
+            let actorEdges = actor.items.filter((i) => i.type == "edge").map((edge) => ({ id: edge.name, label: edge.name }));
+            edges = edges.concat(...actorEdges);
+        }
+        edges = edges.filter((edge, idx) => edges.findIndex((e) => e.id == edge.id) === idx);
+        
+        edges = edges.sort((a, b) => a.label.localeCompare(b.label) );
+        
+        edges.unshift({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllEdges") });
+
         return {
             actorTypes: actorTypes,
             typeFilter: this.typeFilter,
+            edges: edges,
+            edgeFilter: this.edgeFilter,
         };
     }
 
@@ -92,6 +108,14 @@ export class Swade extends BaseSystem {
         filterSelector.addEventListener("change", event => {
             const selection = $(event.target).find("option:selected");
             this.typeFilter = selection.val();
+            browserDialog.render();
+        });
+        
+        //Add the listener to the edge dropdown
+        const edgeSelector = browserDialog.element.querySelector('select[id="edge-filter"]');
+        edgeSelector.addEventListener("change", event => {
+            const selection = $(event.target).find("option:selected");
+            this.edgeFilter = selection.val();
             browserDialog.render();
         });
     }

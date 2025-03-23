@@ -38,7 +38,7 @@ export class BaseSystem {
         return rowData;
     }
     
-    getAdditionalFiltersData(browserDialog) {
+    getAdditionalFiltersData(browserDialog, actors) {
         return {};
     }
 

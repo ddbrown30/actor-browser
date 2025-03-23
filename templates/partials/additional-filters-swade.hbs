@@ -4,3 +4,9 @@
         {{selectOptions additionalFiltersData.actorTypes selected=additionalFiltersData.typeFilter localize=true valueAttr="id" labelAttr="label"}}
     </select>
 </div>
+<div class="edge-filter filter-row">
+    <label for="edge-filter">{{{localize "ACTOR_BROWSER.FilterEdge"}}}</label>
+    <select id="edge-filter" name="edge-filter" type="dropdown" placeholder="Filter Edge...">
+        {{selectOptions additionalFiltersData.edges selected=additionalFiltersData.edgeFilter localize=true valueAttr="id" labelAttr="label"}}
+    </select>
+</div>

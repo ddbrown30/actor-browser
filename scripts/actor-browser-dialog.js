@@ -79,8 +79,8 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         this.sortColumn = this.sortColumn ?? "name";
         this.sortOrder = this.sortOrder ?? 1;
 
-        actors = this.filterActors(actors);
-        this.rowData = this.systemHandler.buildRowData(actors);
+        let filteredActors = this.filterActors(actors);
+        this.rowData = this.systemHandler.buildRowData(filteredActors);
         this.rowData = this.sortRows(this.rowData, this.sortColumn, this.sortOrder);
 
         //Filter the final rows in a transient variable so that we can refilter without requiring a render call
@@ -88,7 +88,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
 
         let selectButtonString = this.getSelectButtonString();
         
-        let additionalFiltersData = this.systemHandler.getAdditionalFiltersData(this);
+        let additionalFiltersData = this.systemHandler.getAdditionalFiltersData(this, actors);
 
         return {
             sources: sources,
