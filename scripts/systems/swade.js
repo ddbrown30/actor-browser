@@ -79,9 +79,7 @@ export class Swade extends BaseSystem {
             let size = actor.type == "vehicle" ? actor.system.size : actor.system.stats.size;
             let unusedValue = { display: "-", sortValue: -100 };
             let data = {
-                uuid: actor.uuid,
-                img: { display: actor.img, sortValue: undefined },
-                name: { display: actor.name, sortValue: actor.name },
+                ...this.buildCommonRowData(actor),
                 size: { display: size, sortValue: size },
                 agi: actor.type == "vehicle" ? unusedValue : this.getDieColumnData(actor.system.attributes.agility.die),
                 sma: actor.type == "vehicle" ? unusedValue : this.getDieColumnData(actor.system.attributes.smarts.die),

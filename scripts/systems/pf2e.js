@@ -24,9 +24,7 @@ export class PF2e extends BaseSystem {
         for (const actor of actors) {
             let level =  actor.system.details.level.value ?? 0;
             let data = {
-                uuid: actor.uuid,
-                img: { display: actor.img, sortValue: undefined },
-                name: { display: actor.name, sortValue: actor.name },
+                ...this.buildCommonRowData(actor),
                 level: { display: level, sortValue: level },
                 traits: this.getTraitColumnData(actor.system.traits?.value),
                 size: this.getSizeColumnData(actor.system.traits?.size.value),

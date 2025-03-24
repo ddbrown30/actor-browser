@@ -26,16 +26,47 @@ export class BaseSystem {
     buildRowData(actors) {
         let rowData = [];
         for (const actor of actors) {
-            let data = {
-                uuid: actor.uuid,
-                img: { display: actor.img, sortValue: undefined},
-                name: { display: actor.name, sortValue: actor.name},
-            };
-
+            let data = this.buildCommonRowData(actor);
             rowData.push(data);
         }
 
         return rowData;
+    }
+
+    buildCommonRowData(actor) {
+        let data = {
+            uuid: actor.uuid,
+            tooltip: this.getTooltip(actor),
+            img: { display: actor.img, sortValue: undefined},
+            name: { display: actor.name, sortValue: actor.name},
+        };
+
+        return data;
+    }
+
+    getTooltip(actor) {
+        let tooltip = "";
+        let parsedUuid = parseUuid(actor.uuid);
+        if (parsedUuid.collection.name == "CompendiumCollection") {
+            tooltip = "Compendium: " + parsedUuid.collection.metadata.label + " (" + parsedUuid.collection.metadata.name + ")";
+        } else {
+            tooltip = this.getFolderPath(actor);
+        }
+
+        return tooltip;
+    }
+
+    getFolderPath(actor) {
+        let folder = actor.folder;
+        let path = "";
+        if (folder) {
+            do {
+                path = folder.name + "/" + path;
+            } while(folder = folder.folder);
+        }
+
+        path = "World/" + path;
+        return path;
     }
     
     getAdditionalFiltersData(browserDialog, actors) {

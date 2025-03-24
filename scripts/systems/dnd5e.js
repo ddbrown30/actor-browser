@@ -45,9 +45,7 @@ export class DnD5e extends BaseSystem {
         for (const actor of actors) {
             let cr =  actor.system.details.cr ?? actor.system.details.level ?? 0;
             let data = {
-                uuid: actor.uuid,
-                img: { display: actor.img, sortValue: undefined },
-                name: { display: actor.name, sortValue: actor.name },
+                ...this.buildCommonRowData(actor),
                 cr: { display: cr, sortValue: cr },
                 type: this.getTypeColumnData(actor.system.details.type?.value),
                 size: this.getSizeColumnData(actor.system.traits.size),
