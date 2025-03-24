@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+* Added a tooltip that displays the path or compendium where the actor lives
+
 ## 0.2.0
 
 * Added pace filter to swade
