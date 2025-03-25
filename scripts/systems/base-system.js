@@ -46,7 +46,7 @@ export class BaseSystem {
 
     getTooltip(actor) {
         let tooltip = "";
-        let parsedUuid = parseUuid(actor.uuid);
+        let parsedUuid = foundry.utils.parseUuid(actor.uuid);
         if (parsedUuid.collection.name == "CompendiumCollection") {
             tooltip = "Compendium: " + parsedUuid.collection.metadata.label + " (" + parsedUuid.collection.metadata.name + ")";
         } else {
