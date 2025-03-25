@@ -40,4 +40,9 @@ export class ActorBrowser {
             new ActorBrowserDialog().render(true);
         });
     }
+
+    static async openBrowser(options={}) {
+        options.selector = options.selector ?? true;
+        return await new ActorBrowserDialog(options).wait();
+    }
 } 

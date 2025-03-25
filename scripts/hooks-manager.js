@@ -15,6 +15,7 @@ export class HooksManager {
 
             // Expose API
             game.actorBrowser.ActorBrowserDialog = ActorBrowserDialog;
+            game.actorBrowser.openBrowser = ActorBrowser.openBrowser;
 
             registerSettings();
 
