@@ -273,6 +273,12 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             }
         }
 
+        //Filter transient actors
+        if (game.tcal) {
+            //The TCAL module is active so filter out any transient actors so they don't clutter up the list
+            filtered = filtered.filter((a) => !game.tcal.isTransientActor(a));
+        }
+
         //System specific filter
         filtered = this.systemHandler.filterActors(filtered);
 
