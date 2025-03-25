@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+
+* Added openBrowser function to the API
+
 ## 0.4.0
 
 * Added TCAL support
