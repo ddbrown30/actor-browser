@@ -17,7 +17,7 @@ The browser is also exposed to the API allowing module makers to leverage it to 
 To do so, you just need to call the following function:
 
 ```js
-let result = await game.actorBrowser.openBrowser();
+let result = await game.actorBrowser.openBrowser(options);
 ```
 * `options`
   * `selector` If true, this option tells the browser to select and return an actor rather than using the default behaviour of opening the actor sheet. This is true by default when calling `openBrowser`.
