@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0
+
+* Added TCAL support
+
 ## 0.3.0
 
 * Added a tooltip that displays the path or compendium where the actor lives
