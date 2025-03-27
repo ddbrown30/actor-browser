@@ -25,6 +25,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         }
     };
 
+    static ALL_ID = "all";
     static WORLD_ACTORS_ID = "worldActors";
 
     constructor(options = {}) {
@@ -61,7 +62,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterWorldActors") });
         } else {
             //Add a "nothing" default and the world actors to the sources list
-            sources.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllActors") });
+            sources.push({ id: ActorBrowserDialog.ALL_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterAllActors") });
             sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterWorldActors") });
         }
 
@@ -75,8 +76,15 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             actors = actors.concat(...packActors.actors);
         }
 
+        if (!this.sourceFilter) {
+            if (this.options.initialSourceFilter) {
+                this.sourceFilter = sources.find((s) => s.id == this.options.initialSourceFilter) ? this.options.initialSourceFilter : sources[0].id;
+            } else {
+                this.sourceFilter = sources[0].id;
+            }
+        }
+
         this.search = this.search ?? "";
-        this.sourceFilter = this.sourceFilter ?? sources[0].id;
         this.sortColumn = this.sortColumn ?? "name";
         this.sortOrder = this.sortOrder ?? 1;
 
@@ -264,7 +272,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         let filtered = actors;
 
         //Filter by source
-        if (this.sourceFilter) {
+        if (this.sourceFilter != ActorBrowserDialog.ALL_ID) {
             if (this.sourceFilter == ActorBrowserDialog.WORLD_ACTORS_ID) {
                 //Actors from a compendium index will not have a documentName so we can assume that actors that do must be world actors
                 filtered = filtered.filter((a) => a.documentName == "Actor");
