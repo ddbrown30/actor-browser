@@ -103,7 +103,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         this.sortOrder = this.sortOrder ?? 1;
 
         let filteredActors = this.filterActors(actors);
-        this.rowData = this.systemHandler.buildRowData(filteredActors);
+        this.rowData = await this.systemHandler.buildRowData(filteredActors, this);
         this.rowData = this.sortRows(this.rowData, this.sortColumn, this.sortOrder);
 
         //Filter the final rows in a transient variable so that we can refilter without requiring a render call
@@ -115,6 +115,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
 
         return {
             sources: sources,
+            showToken: this.showToken,
             sourceFilter: this.sourceFilter,
             search: this.search,
             actors: filteredRows,
@@ -158,6 +159,12 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         searchSelector.addEventListener("keyup", async event => {
             this.search = event.target.value;
             await this.renderActorList(event);
+        });
+        
+        let showTokenCheckbox = this.element.querySelector("input[id='show-token']");
+        showTokenCheckbox.addEventListener("change", event => {
+            this.showToken = event.target.checked;
+            this.render();
         });
 
         //Add the listener to the source dropdown

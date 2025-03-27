@@ -13,6 +13,7 @@ export class DnD5e extends BaseSystem {
 
     getIndexFields() {
         return [
+            ...super.getIndexFields(),
             "system.details",
             "system.traits",
             "system.attributes",
@@ -39,13 +40,13 @@ export class DnD5e extends BaseSystem {
         return filtered;
     }
 
-    buildRowData(actors) {
+    async buildRowData(actors, browserDialog) {
         let rowData = [];
         
         for (const actor of actors) {
             let cr =  actor.system.details.cr ?? actor.system.details.level ?? 0;
             let data = {
-                ...this.buildCommonRowData(actor),
+                ...(await this.buildCommonRowData(actor, browserDialog)),
                 cr: { display: cr, sortValue: cr },
                 type: this.getTypeColumnData(actor.system.details.type?.value),
                 size: this.getSizeColumnData(actor.system.traits.size),

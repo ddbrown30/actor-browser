@@ -7,38 +7,54 @@ export class BaseSystem {
         return "";
     }
 
-    getActorListTemplate() {        
+    getActorListTemplate() {
         return `${PATH}/templates/partials/actor-list-base.hbs`;
     }
 
     getIndexFields() {
-        return [];
+        return [
+            "prototypeToken.randomImg",
+            "prototypeToken.texture",
+        ];
     }
 
     getActorTypes() {
         return [];
     }
 
-    filterActors(actors) {        
+    filterActors(actors) {
         return actors;
     }
 
-    buildRowData(actors) {
+    async buildRowData(actors, browserDialog) {
         let rowData = [];
         for (const actor of actors) {
-            let data = this.buildCommonRowData(actor);
+            let data = (await this.buildCommonRowData(actor, browserDialog));
             rowData.push(data);
         }
 
         return rowData;
     }
 
-    buildCommonRowData(actor) {
+    async buildCommonRowData(actor, browserDialog) {
+        let img = actor.img;
+        if (browserDialog.showToken) {
+            if (actor.prototypeToken.randomImg) {
+                if (actor._lastWildcard) {
+                    img = actor._lastWildcard;
+                } else if (actor instanceof Actor) {
+                    img = (await actor.getTokenDocument()).texture.src ?? actor.img;
+                }
+            } else if (actor.prototypeToken.texture.src) {
+                img = actor.prototypeToken.texture.src;
+            }
+        }
+
         let data = {
             uuid: actor.uuid,
             tooltip: this.getTooltip(actor),
-            img: { display: actor.img, sortValue: undefined},
-            name: { display: actor.name, sortValue: actor.name},
+            img: { display: img, sortValue: undefined },
+            name: { display: actor.name, sortValue: actor.name },
         };
 
         return data;
@@ -62,13 +78,13 @@ export class BaseSystem {
         if (folder) {
             do {
                 path = folder.name + "/" + path;
-            } while(folder = folder.folder);
+            } while (folder = folder.folder);
         }
 
         path = "World/" + path;
         return path;
     }
-    
+
     getAdditionalFiltersData(browserDialog, actors) {
         return {};
     }
@@ -87,6 +103,6 @@ export class BaseSystem {
     }
 
     onOpenBrowser() {
-        this.filters = {}; 
+        this.filters = {};
     }
 } 

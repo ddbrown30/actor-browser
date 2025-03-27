@@ -13,6 +13,7 @@ export class Swade extends BaseSystem {
 
     getIndexFields() {
         return [
+            ...super.getIndexFields(),
             "system.stats.size",
             "system.size",
             "system.pace",
@@ -73,13 +74,13 @@ export class Swade extends BaseSystem {
         return filtered;
     }
 
-    buildRowData(actors) {
+    async buildRowData(actors, browserDialog) {
         let rowData = [];
         for (const actor of actors) {
             let size = actor.type == "vehicle" ? actor.system.size : actor.system.stats.size;
             let unusedValue = { display: "-", sortValue: -100 };
             let data = {
-                ...this.buildCommonRowData(actor),
+                ...(await this.buildCommonRowData(actor, browserDialog)),
                 size: { display: size, sortValue: size },
                 agi: actor.type == "vehicle" ? unusedValue : this.getDieColumnData(actor.system.attributes.agility.die),
                 sma: actor.type == "vehicle" ? unusedValue : this.getDieColumnData(actor.system.attributes.smarts.die),

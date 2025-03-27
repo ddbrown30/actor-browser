@@ -159,7 +159,6 @@
 .actor-browser-dialog input {
     margin: .25rem .25rem .25rem .5rem;
     max-width: 40%;
-    min-width: 40%;
 }
 
 .actor-browser-dialog select {

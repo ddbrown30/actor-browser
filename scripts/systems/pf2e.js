@@ -9,6 +9,7 @@ export class PF2e extends BaseSystem {
 
     getIndexFields() {
         return [
+            ...super.getIndexFields(),
             "system.details",
             "system.traits",
         ];
@@ -18,13 +19,13 @@ export class PF2e extends BaseSystem {
         return ["character", "npc"];
     }
 
-    buildRowData(actors) {
+    async buildRowData(actors, browserDialog) {
         let rowData = [];
         
         for (const actor of actors) {
             let level =  actor.system.details.level.value ?? 0;
             let data = {
-                ...this.buildCommonRowData(actor),
+                ...(await this.buildCommonRowData(actor, browserDialog)),
                 level: { display: level, sortValue: level },
                 traits: this.getTraitColumnData(actor.system.traits?.value),
                 size: this.getSizeColumnData(actor.system.traits?.size.value),

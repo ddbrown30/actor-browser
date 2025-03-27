@@ -1,6 +1,7 @@
 {
     "ACTOR_BROWSER.ActorBrowser": "Actor Browser",
     "ACTOR_BROWSER.OpenActorBrowser": "Open Actor Browser",
+    "ACTOR_BROWSER.ShowToken": "Show Token Image",
     "ACTOR_BROWSER.FilterSource": "Filter Source:",
     "ACTOR_BROWSER.FilterType": "Filter Type:",
     "ACTOR_BROWSER.FilterEdge": "Filter Edge:",
