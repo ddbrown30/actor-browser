@@ -29,6 +29,11 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
     static WORLD_ACTORS_ID = "worldActors";
 
     constructor(options = {}) {
+        if (options.validFilterSources && !Array.isArray(options.validFilterSources) ) {
+            Utils.showNotification("error", "validFilterSources was not an array");
+            delete options.validFilterSources;
+        }
+        
         super(options);
 
         this.dragDrop = new DragDrop({
@@ -61,7 +66,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             this.sourceFilter = ActorBrowserDialog.WORLD_ACTORS_ID;
             sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterWorldActors") });
         } else {
-            //Add a "nothing" default and the world actors to the sources list
+            //Add an "all" default and the world actors to the sources list
             sources.push({ id: ActorBrowserDialog.ALL_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterAllActors") });
             sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterWorldActors") });
         }
@@ -75,6 +80,15 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             sources = sources.concat(...packActors.sources);
             actors = actors.concat(...packActors.actors);
         }
+
+        if (this.options.validFilterSources) {
+            //We have been provided a list of valid sources. Filter out what doesn't match
+            let filteredSources = sources.filter((s) => this.options.validFilterSources.find((f) => f == s.id));
+            if (filteredSources.length) {
+                //We will only use the filtered sources if there is at least one valid source
+                sources = filteredSources;
+            }
+        } 
 
         if (!this.sourceFilter) {
             if (this.options.initialSourceFilter) {

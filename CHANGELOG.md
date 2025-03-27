@@ -3,6 +3,7 @@
 ## 0.6.0
 
 * Added initialSourceFilter option
+* Added validFilterSources option
 
 ## 0.5.0
 
