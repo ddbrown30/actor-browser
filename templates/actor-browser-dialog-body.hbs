@@ -6,7 +6,7 @@
                 {{selectOptions sources selected=sourceFilter localize=true valueAttr="id" labelAttr="label"}}
             </select>
         </div>
-        {{#> additionalFiltersPartial additionalFiltersData=additionalFiltersData}}{{/additionalFiltersPartial}}
+        {{#> actorBrowserAdditionalFiltersPartial additionalFiltersData=additionalFiltersData}}{{/actorBrowserAdditionalFiltersPartial}}
     </div>
     <div class="search-panel">
         <div class="search-input">
@@ -14,7 +14,7 @@
         </div>
         <div>
             <table id="actor-list" class="actor-list">
-                {{> actorListPartial actors=actors}}
+                {{> actorBrowserListPartial actors=actors}}
             </table>
         </div>
     </div>

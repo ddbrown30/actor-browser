@@ -58,12 +58,12 @@ export class Utils {
      */
     static async loadTemplates() {
         let listPartial = await loadTemplates([game.actorBrowser.systemHandler.getActorListTemplate()]);
-        Handlebars.registerPartial("actorListPartial", listPartial[0]);
+        Handlebars.registerPartial("actorBrowserListPartial", listPartial[0]);
         
         let filtersTemplate = game.actorBrowser.systemHandler.getAdditionalFiltersTemplate();
         if (filtersTemplate) {
             let filtersPartial = await loadTemplates([filtersTemplate]);
-            Handlebars.registerPartial("additionalFiltersPartial", filtersPartial[0]);
+            Handlebars.registerPartial("actorBrowserAdditionalFiltersPartial", filtersPartial[0]);
         }
     }
 

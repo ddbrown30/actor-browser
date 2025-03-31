@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+* Renamed partials to avoid conflict with other modules
+
 ## 0.6.0
 
 * Added initialSourceFilter option
