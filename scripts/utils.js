@@ -100,43 +100,4 @@ export class Utils {
     static async setModuleFlag(obj, flag, data) {
         return await obj.setFlag(MODULE_CONFIG.NAME, flag, data);
     }
-
-    static parseJson(str) {
-        try {
-            str = str.replace("<p>", "");
-            str = str.replace("</p>", "");
-            return JSON.parse(str);
-        } catch (e) {
-            return null;
-        }
-    }
-
-    static getSelected() {
-        let targets = Array.from(game.user.targets);
-        return targets.length ? targets : canvas.tokens.controlled;
-    }
-
-    static getDocumentOwners(document) {
-        const permissions = document.ownership ?? document.data?.ownership;
-        if (!permissions) return null;
-        const owners = [];
-        for (const userId in permissions) {
-            if (permissions[userId] === foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
-                let user = game.users.get(userId);
-                if (!user.isGM) {
-                    owners.push(user);
-                }
-            } 
-        }
-        return owners;
-    }
-
-    /**
-     * Retrieves a key using the given value
-     * @param {Object} object -- the object that contains the key/value
-     * @param {*} value 
-     */
-    static getKeyByValue(object, value) {
-        return Object.keys(object).find(key => object[key] === value);
-    }
 }
