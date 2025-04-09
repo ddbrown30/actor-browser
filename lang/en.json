@@ -1,6 +1,8 @@
 {
     "ACTOR_BROWSER.ActorBrowser": "Actor Browser",
     "ACTOR_BROWSER.OpenActorBrowser": "Open Actor Browser",
+    "ACTOR_BROWSER.SearchName": "Name:",
+    "ACTOR_BROWSER.SearchDescription": "Description:",
     "ACTOR_BROWSER.FilterSource": "Filter Source:",
     "ACTOR_BROWSER.FilterType": "Filter Type:",
     "ACTOR_BROWSER.FilterEdge": "Filter Edge:",
@@ -23,7 +25,7 @@
     "ACTOR_BROWSER.Select": "Select",
     "ACTOR_BROWSER.Open": "Open",
     "ACTOR_BROWSER.Close": "Close",
-    
+
     "ACTOR_BROWSER.Name": "Name",
     "ACTOR_BROWSER.Size": "Size",
     "ACTOR_BROWSER.Agi": "Agi",
@@ -38,14 +40,14 @@
     "ACTOR_BROWSER.Level": "Level",
     "ACTOR_BROWSER.Speed": "Speed",
     "ACTOR_BROWSER.Senses": "Senses",
-    
+
     "ACTOR_BROWSER.None": "None",
-    
+
     "ACTOR_BROWSER.WaitError": "Actor Browser was used as a selector but the requester did not wait for the results.",
-    
+
     "ACTOR_BROWSER.Settings.ShowOnActorDirectoryN": "Show on Actors Tab",
     "ACTOR_BROWSER.Settings.ShowOnActorDirectoryH": "If enabled, a button to open the Actor Browser will be added to the Actors tab",
-    
+
     "ACTOR_BROWSER.Settings.UseSmallButtonN": "Use Small Button",
     "ACTOR_BROWSER.Settings.UseSmallButtonH": "If enabled, the button on the Actors tab is small and placed in the same row as the search field"
 }

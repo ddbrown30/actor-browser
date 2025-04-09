@@ -33,7 +33,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             Utils.showNotification("error", "validFilterSources was not an array");
             delete options.validFilterSources;
         }
-        
+
         super(options);
 
         this.dragDrop = new DragDrop({
@@ -44,7 +44,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         });
 
         this.systemHandler = game.actorBrowser.systemHandler;
-        this.systemHandler.onOpenBrowser(this);
+        this.systemHandler.clearFilters(this);
     }
 
     onDragStart(event) {
@@ -88,7 +88,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
                 //We will only use the filtered sources if there is at least one valid source
                 sources = filteredSources;
             }
-        } 
+        }
 
         if (!this.sourceFilter) {
             if (this.options.initialSourceFilter) {
@@ -98,29 +98,32 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             }
         }
 
-        this.search = this.search ?? "";
+        let additionalFiltersData = this.systemHandler.getAdditionalFiltersData(this, actors);
+        let additionalSearchesData = this.systemHandler.getAdditionalSearchesData(this, actors);
+
+        const headerData = this.getHeaderData();
+
+        this.searchName = this.searchName ?? "";
         this.sortColumn = this.sortColumn ?? "name";
         this.sortOrder = this.sortOrder ?? 1;
 
         let filteredActors = this.filterActors(actors);
-        this.rowData = this.systemHandler.buildRowData(filteredActors);
+        this.rowData = await this.systemHandler.buildRowData(filteredActors, headerData);
+        this.rowData = this.filterRows(this.rowData);
         this.rowData = this.sortRows(this.rowData, this.sortColumn, this.sortOrder);
 
-        //Filter the final rows in a transient variable so that we can refilter without requiring a render call
-        let filteredRows = this.filterRows(this.rowData);
-
         let selectButtonString = this.getSelectButtonString();
-        
-        let additionalFiltersData = this.systemHandler.getAdditionalFiltersData(this, actors);
 
         return {
             sources: sources,
             sourceFilter: this.sourceFilter,
-            search: this.search,
-            actors: filteredRows,
+            searchName: this.searchName,
+            actors: this.rowData,
             selectedActor: this.selectedActor,
             selectButtonString: selectButtonString,
             additionalFiltersData: additionalFiltersData,
+            additionalSearchesData: additionalSearchesData,
+            headerData: headerData,
         };
     };
 
@@ -135,17 +138,11 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         this.activateListeners();
     }
 
-    async renderActorList(event) {
-        let filteredRows = this.filterRows(this.rowData);
-        let data = {
-            actors: filteredRows,
-            selectedActor: this.selectedActor,
-        };
-
+    async renderActorList(data) {
         //Re-render just the actor list with the newly filtered list and replace the html
-        const content = await renderTemplate(this.systemHandler.getActorListTemplate(), data);
-        let optionsBox = event.target.closest(".search-panel");
-        let actorList = optionsBox.querySelector(".actor-list");
+        const content = await renderTemplate(DEFAULT_CONFIG.templates.actorList, data);
+        let listPanel = this.element.querySelector(".list-panel");
+        let actorList = listPanel.querySelector(".actor-list");
         actorList.innerHTML = content;
 
         //We need to activate listeners again since we just stomped over the existing html
@@ -153,19 +150,21 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
     }
 
     activateListeners() {
-        //Add a keyup listener on the search input so that we can filter as we type
-        const searchSelector = this.element.querySelector('input.search');
-        searchSelector.addEventListener("keyup", async event => {
-            this.search = event.target.value;
-            await this.renderActorList(event);
+        //Add a keyup listener on the searchName input so that we can filter as we type
+        const searchNameSelector = this.element.querySelector('input.search-name');
+        searchNameSelector.addEventListener("keyup", async event => {
+            this.searchName = event.target.value;
+            let data = await this._prepareContext();
+            await this.renderActorList(data);
         });
 
         //Add the listener to the source dropdown
         const filterSelector = this.element.querySelector('select[id="source-filter"]');
-        filterSelector.addEventListener("change", event => {
+        filterSelector.addEventListener("change", async event => {
             const selection = $(event.target).find("option:selected");
             this.sourceFilter = selection.val();
-            this.render();
+            let data = await this._prepareContext();
+            await this.renderActorList(data);
         });
 
         this.activateTableListeners(this.element);
@@ -188,7 +187,8 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
                         this.sortOrder = 1;
                     }
                     this.sortColumn = columnName;
-                    this.render();
+                    let data = await this._prepareContext();
+                    await this.renderActorList(data);
                 });
             }
         }
@@ -200,7 +200,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
 
             row.addEventListener("click", async event => {
                 this.selectedActor = row.dataset.actorId;
-                
+
                 //Loop over the rows and add/remove the selected class as needed
                 for (let r of rows) {
                     if (!r.dataset?.actorId) continue;
@@ -224,7 +224,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
                 this.select();
             });
         }
-        
+
         this.dragDrop.bind(this.element);
     }
 
@@ -235,7 +235,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             if (pack.documentName != "Actor") continue;
             if (!pack.testUserPermission(game.user, "OBSERVER")) continue;
 
-            let packIndex = await pack.getIndex({ fields: this.systemHandler.getIndexFields() });
+            let packIndex = await pack.getIndex({ fields: this.systemHandler.constructor.INDEX_FIELDS });
             if (packIndex.size == 0) continue;
 
             packIndex = this.filterActorsByType(packIndex);
@@ -265,11 +265,20 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         return actors;
     }
 
+    getHeaderData() {
+        const headerConfig = this.systemHandler.constructor.HEADER_CONFIG;
+        let headerData = {};
+        for (let column of Object.keys(headerConfig)) {
+            headerData[column] = headerConfig[column];
+        }
+        return headerData;
+    }
+
     filterActorsByType(actors) {
         let filtered = actors;
-        
+
         //Remove invalid actor types
-        const actorTypes = this.systemHandler.getActorTypes();
+        const actorTypes = this.systemHandler.constructor.ACTOR_TYPES;
         if (actorTypes.length) {
             filtered = filtered.filter((a) => actorTypes.includes(a.type));
         }
@@ -278,7 +287,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         if (this.options.actorTypes?.length) {
             filtered = filtered.filter((a) => this.options.actorTypes.includes(a.type));
         }
-        
+
         return filtered;
     }
 
@@ -311,8 +320,8 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         let filtered = rowData;
 
         //Filter by the search string
-        if (this.search) {
-            filtered = filtered.filter((r) => r.name.display.toLowerCase().includes(this.search.toLowerCase()));
+        if (this.searchName) {
+            filtered = filtered.filter((r) => r.name.display.toLowerCase().includes(this.searchName.toLowerCase()));
         }
 
         //If our selected actor does not exist in our filtered list, deselect it
@@ -327,7 +336,17 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         let retVal = rows.sort(function (a, b) {
             const sortA = a[sortColumn];
             const sortB = b[sortColumn];
-            if (typeof sortA.sortValue == "string") {
+            if (sortA.display == sortB.display) return 0;
+
+            if (sortA.sortValue == Number.MAX_SAFE_INTEGER || sortB.sortValue == Number.MAX_SAFE_INTEGER) {
+                //If these are both max int it means they're both "invalid" values but they may be different
+                //In this case, do a string compare of their display value as a tie breaker but always treat "-" as higher so it gets pushed to the bottom of the list
+                if (sortA.display == "-") return sortOrder;
+                if (sortB.display == "-") return -1 * sortOrder;
+                return sortA.display.localeCompare(sortB.display) * sortOrder;
+            }
+
+            if (typeof sortA.sortValue == "string" && typeof sortB.sortValue == "string") {
                 return sortA.sortValue.localeCompare(sortB.sortValue) * sortOrder;
             } else {
                 return (sortA.sortValue - sortB.sortValue) * sortOrder;

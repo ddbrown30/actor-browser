@@ -25,7 +25,7 @@ export class ActorBrowser {
 
         let useSmallButton = Utils.getSetting(SETTING_KEYS.useSmallButton);
         const browserButton = await renderTemplate(DEFAULT_CONFIG.templates.actorBrowserButton, {useSmallButton: useSmallButton});
-        
+
         if (useSmallButton) {
             let header = html[0].querySelector(".header-search");
             header.insertAdjacentHTML("beforeend", browserButton);
@@ -43,6 +43,10 @@ export class ActorBrowser {
 
     static async openBrowser(options={}) {
         options.selector = options.selector ?? true;
-        return await new ActorBrowserDialog(options).wait();
+        if (options.selector) {
+            return await new ActorBrowserDialog(options).wait();
+        } else {
+            new ActorBrowserDialog(options).render(true);
+        }
     }
-} 
+}

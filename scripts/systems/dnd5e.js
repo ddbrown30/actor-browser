@@ -1,27 +1,43 @@
-import { PATH } from "../module-config.js";
+import { CONST, PATH } from "../module-config.js";
 import { BaseSystem } from "./base-system.js";
 
 export class DnD5e extends BaseSystem {
 
-    getAdditionalFiltersTemplate() {
-        return `${PATH}/templates/partials/additional-filters-dnd5e.hbs`;
-    }
-
-    getActorListTemplate() {
-        return `${PATH}/templates/partials/actor-list-dnd5e.hbs`;
-    }
-
-    getIndexFields() {
-        return [
-            "system.details",
-            "system.traits",
-            "system.attributes",
-        ];
-    }
-
-    getActorTypes() {
-        return ["character", "npc"];
-    }
+    static ADDITIONAL_FILTERS_TEMPLATE = `${PATH}/templates/partials/additional-filters-dnd5e.hbs`;
+    static INDEX_FIELDS = ["system.details", "system.traits", "system.attributes"];
+    static ACTOR_TYPES = ["character", "npc"];
+    static HEADER_CONFIG = {
+        cr: {
+            class: "actor-cell-attr",
+            label: "ACTOR_BROWSER.CR",
+            sort: 'data-sort-id="cr"',
+        },
+        type: {
+            class: "actor-cell-dndtype",
+            label: "ACTOR_BROWSER.Type",
+            sort: 'data-sort-id="type"',
+        },
+        size: {
+            class: "actor-cell-dndsize",
+            label: "ACTOR_BROWSER.Size",
+            sort: 'data-sort-id="size"',
+        },
+        speed: {
+            class: "actor-cell-dndspeed",
+            label: "ACTOR_BROWSER.Speed",
+            sort: '',
+        },
+        senses: {
+            class: "actor-cell-dndsenses",
+            label: "ACTOR_BROWSER.Senses",
+            sort: '',
+        },
+        alignment: {
+            class: "actor-cell-dndalignment",
+            label: "ACTOR_BROWSER.Alignment",
+            sort: 'data-sort-id="alignment"',
+        },
+    };
 
     filterActors(actors) {
         let filtered = super.filterActors(actors);
@@ -39,9 +55,9 @@ export class DnD5e extends BaseSystem {
         return filtered;
     }
 
-    buildRowData(actors) {
+    async buildRowData(actors, headerData) {
         let rowData = [];
-        
+
         for (const actor of actors) {
             let cr =  actor.system.details.cr ?? actor.system.details.level ?? 0;
             let data = {
@@ -51,11 +67,13 @@ export class DnD5e extends BaseSystem {
                 size: this.getSizeColumnData(actor.system.traits.size),
                 speed: this.getSpeedColumnData(actor.system.attributes.movement),
                 senses: this.getSenseColumnData(actor.system.attributes.senses),
-                alignment: { display: actor.system.details.alignment, sortValue: actor.system.details.alignment },
+                alignment: this.getAlignmentColumnData(actor.system.details.alignment),
             };
 
             rowData.push(data);
         }
+
+        this.buildRowHtml(rowData, headerData);
 
         return rowData;
     }
@@ -88,7 +106,7 @@ export class DnD5e extends BaseSystem {
             }
             display += CONFIG.DND5E.movementTypes[type] + " " + value;
         }
-        
+
         if (!display) {
             display = game.i18n.localize("ACTOR_BROWSER.None");
         }
@@ -106,12 +124,20 @@ export class DnD5e extends BaseSystem {
             }
             display += CONFIG.DND5E.senses[type] + " " + value;
         }
-        
+
         if (!display) {
             display = game.i18n.localize("ACTOR_BROWSER.None");
         }
 
         return { display, sortValue: undefined };
+    }
+
+    getAlignmentColumnData(alignment) {
+        if (alignment) {
+            return { display: alignment, sortValue: alignment };
+        }
+
+        return CONST.unusedValue;
     }
 
     getAdditionalFiltersData(browserDialog, actors) {
@@ -120,7 +146,7 @@ export class DnD5e extends BaseSystem {
         for (let [type, value] of Object.entries(CONFIG.DND5E.movementTypes)) {
             speeds.push({ id: type, label: value });
         }
-        
+
         let senses = [];
         senses.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllSenses") });
         for (let [type, value] of Object.entries(CONFIG.DND5E.senses)) {

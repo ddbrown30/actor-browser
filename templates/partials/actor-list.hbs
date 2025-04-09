@@ -1,0 +1,26 @@
+<colgroup>
+    <col class="actor-cell-img" />
+    <col class="actor-cell-name" />
+    <col /> {{!-- This combined with the colspan="2" below lets us fake a min-width on the name column --}}
+    {{#each headerData}}
+    <col class="{{class}}" />
+    {{/each}}
+</colgroup>
+<tr class="actor-header">
+    <th></th>
+    <th colspan="2" data-sort-id="name" style="text-align: start;">{{{localize "ACTOR_BROWSER.Name"}}}</th>
+    {{#each headerData}}
+    <th {{{sort}}}>{{{localize label}}}</th>
+    {{/each}}
+</tr>
+{{#each actors}}
+<tr class="actor-option{{#if (and ../selectedActor (eq ../selectedActor uuid))}} selected{{/if}}" data-actor-id="{{uuid}}" data-tooltip="{{tooltip}}">
+    <td class="actor-cell-img">
+        <img src="{{img.display}}" alt="{{name.display}}" loading="lazy" class="actor-row-img">
+    </td>
+    <td class="actor-cell-name" colspan="2">
+        <p class="actor-row-text">{{name.display}}</p>
+    </td>
+    {{{rowHtml}}}
+</tr>
+{{/each}}

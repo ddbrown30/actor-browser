@@ -10,7 +10,9 @@ export function registerSettings() {
         config: true,
         type: Boolean,
         default: true,
-        requiresReload: true,
+        onChange: s => {
+            ui.actors.render(true);
+        }
     });
 
     Utils.registerSetting(MODULE_CONFIG.SETTING_KEYS.useSmallButton, {
@@ -20,6 +22,8 @@ export function registerSettings() {
         config: true,
         type: Boolean,
         default: false,
-        requiresReload: true,
+        onChange: s => {
+            ui.actors.render(true);
+        }
     });
 }

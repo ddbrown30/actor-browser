@@ -6,11 +6,17 @@
                 {{selectOptions sources selected=sourceFilter localize=true valueAttr="id" labelAttr="label"}}
             </select>
         </div>
-        {{#> actorBrowserAdditionalFiltersPartial additionalFiltersData=additionalFiltersData}}{{/actorBrowserAdditionalFiltersPartial}}
+        <div class="system-filters">
+            {{#> actorBrowserAdditionalFiltersPartial additionalFiltersData=additionalFiltersData}}{{/actorBrowserAdditionalFiltersPartial}}
+        </div>
     </div>
-    <div class="search-panel">
+    <div class="list-panel">
         <div class="search-input">
-            <input type="text" class="search" value="{{search}}">
+            <div class="search-row">
+                <label>{{{localize "ACTOR_BROWSER.SearchName"}}}</label>
+                <input type="text" class="search-name" value="{{searchName}}">
+            </div>
+            {{#> actorBrowserAdditionalSearchesPartial additionalSearchesData=additionalSearchesData}}{{/actorBrowserAdditionalSearchesPartial}}
         </div>
         <div>
             <table id="actor-list" class="actor-list">
