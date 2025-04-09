@@ -4,7 +4,8 @@ import { BaseSystem } from "./base-system.js";
 export class Swade extends BaseSystem {
 
     static ADDITIONAL_FILTERS_TEMPLATE = `${PATH}/templates/partials/additional-filters-swade.hbs`;
-    static INDEX_FIELDS = ["system.stats.size", "system.size", "system.pace", "system.attributes", "items"];
+    static ADDITIONAL_SEARCHES_TEMPLATE = `${PATH}/templates/partials/additional-searches-swade.hbs`;
+    static INDEX_FIELDS = ["system.stats.size", "system.size", "system.pace", "system.attributes", "system.details", "items"];
     static ACTOR_TYPES = ["character", "npc", "vehicle"];
     static HEADER_CONFIG = {
         size: {
@@ -41,6 +42,18 @@ export class Swade extends BaseSystem {
 
     filterActors(actors) {
         let filtered = super.filterActors(actors);
+
+        //Filter by the search desc string
+        if (this.searchDesc) {
+            const searchDesc = this.searchDesc;
+            filtered = filtered.filter(function (a) {
+                if (a.type == "vehicle") {
+                    return a.system.description?.toLowerCase().includes(searchDesc.toLowerCase())
+                } else {
+                    return a.system.details?.biography?.value.toLowerCase().includes(searchDesc.toLowerCase())
+                }
+            });
+        }
 
         //Filter by type
         if (this.filters.typeFilter) {
@@ -122,6 +135,14 @@ export class Swade extends BaseSystem {
         return { display, sortValue };
     }
 
+    getAdditionalSearchesData(browserDialog, actors) {
+        this.searchDesc = this.searchDesc ?? "";
+
+        return {
+            searchDesc: this.searchDesc,
+        };
+    }
+
     getAdditionalFiltersData(browserDialog, actors) {
         let actorTypes = [];
         actorTypes.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllTypes") });
@@ -167,5 +188,13 @@ export class Swade extends BaseSystem {
         super.addDropdownListener("edge", "edgeFilter", browserDialog);
         super.addDropdownListener("ability", "abilityFilter", browserDialog);
         super.addDropdownListener("pace", "paceFilter", browserDialog);
+
+        //Add a keyup listener on the search desc input so that we can filter as we type
+        const searchDescSelector = browserDialog.element.querySelector('input.search-desc');
+        searchDescSelector?.addEventListener("keyup", async event => {
+            this.searchDesc = event.target.value;
+            let data = await browserDialog._prepareContext();
+            await browserDialog.renderActorList(data);
+        });
     }
 }

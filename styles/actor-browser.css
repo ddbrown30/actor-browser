@@ -61,6 +61,24 @@
     margin: .25rem;
 }
 
+.actor-browser-dialog .search-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    text-align: start;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.actor-browser-dialog .search-row label {
+    min-width: 20%;
+}
+
+.actor-browser-dialog .search-row input {
+    max-width: 100%;
+}
+
 .actor-browser-dialog .list-panel table {
     list-style: none;
     margin: 0;
