@@ -44,8 +44,8 @@ export class Swade extends BaseSystem {
         let filtered = super.filterActors(actors);
 
         //Filter by the search desc string
-        if (this.searchDesc) {
-            const searchDesc = this.searchDesc;
+        if (this.filters.searchDesc) {
+            const searchDesc = this.filters.searchDesc;
             filtered = filtered.filter(function (a) {
                 if (a.type == "vehicle") {
                     return a.system.description?.toLowerCase().includes(searchDesc.toLowerCase())
@@ -136,10 +136,10 @@ export class Swade extends BaseSystem {
     }
 
     getAdditionalSearchesData(browserDialog, actors) {
-        this.searchDesc = this.searchDesc ?? "";
+        this.filters.searchDesc = this.filters.searchDesc ?? "";
 
         return {
-            searchDesc: this.searchDesc,
+            searchDesc: this.filters.searchDesc,
         };
     }
 
@@ -192,7 +192,7 @@ export class Swade extends BaseSystem {
         //Add a keyup listener on the search desc input so that we can filter as we type
         const searchDescSelector = browserDialog.element.querySelector('input.search-desc');
         searchDescSelector?.addEventListener("keyup", async event => {
-            this.searchDesc = event.target.value;
+            this.filters.searchDesc = event.target.value;
             let data = await browserDialog._prepareContext();
             await browserDialog.renderActorList(data);
         });
