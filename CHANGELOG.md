@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.0
+
+* Major refactor to use the more generic structure I used for the item browser
+* Added additional search system
+* Added a description search to swade
+* A few small tweaks and fixes
+
 ## 0.6.1
 
 * Renamed partials to avoid conflict with other modules
