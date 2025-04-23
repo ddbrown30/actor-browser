@@ -113,4 +113,8 @@ export class BaseSystem {
     clearFilters() {
         this.filters = {};
     }
+
+    clearSearches() {
+        this.searches = {};
+    }
 }
