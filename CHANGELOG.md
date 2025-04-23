@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.0
+
+* Moved searches into a separate property so they can be cleared independently of filters
+
 ## 0.7.0
 
 * Major refactor to use the more generic structure I used for the item browser
