@@ -142,13 +142,13 @@ export class DnD5e extends BaseSystem {
 
     getAdditionalFiltersData(browserDialog, actors) {
         let speeds = [];
-        speeds.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllSpeeds") });
+        speeds.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.All") });
         for (let [type, value] of Object.entries(CONFIG.DND5E.movementTypes)) {
             speeds.push({ id: type, label: value });
         }
 
         let senses = [];
-        senses.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllSenses") });
+        senses.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.All") });
         for (let [type, value] of Object.entries(CONFIG.DND5E.senses)) {
             senses.push({ id: type, label: value });
         }

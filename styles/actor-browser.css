@@ -18,6 +18,13 @@
     max-width: unset;
 }
 
+.actor-browser-dialog .actor-header-wildcard {
+    border: unset;
+    height: 30px;
+    width: 30px;
+    max-width: unset;
+}
+
 .actor-browser-dialog .filter-panel,
 .actor-browser-dialog .list-panel,
 .actor-browser-dialog .search-input {
@@ -36,10 +43,15 @@
     flex: 0 1 250px;
 }
 
+.actor-browser-dialog .filter-panel h3 {
+    margin-top: 10px;
+    color: #454545;
+    text-shadow: 1px 1px 4px #999999;
+}
+
 .actor-browser-dialog .filter-row {
     padding: 0.1rem 0.5rem;
 }
-
 
 .actor-browser-dialog main {
     column-count: 2;
@@ -92,6 +104,10 @@
 
 .actor-browser-dialog [data-sort-id]:hover {
     text-shadow: 0 0 8px var(--color-shadow-primary);
+}
+
+.actor-browser-dialog [data-sort-id="wildcard"]:hover {
+    filter: drop-shadow(0 0 8px var(--color-shadow-primary));
 }
 
 .actor-browser-dialog table td {

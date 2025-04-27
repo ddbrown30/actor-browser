@@ -8,6 +8,11 @@ export class Swade extends BaseSystem {
     static INDEX_FIELDS = ["system.stats.size", "system.size", "system.pace", "system.attributes", "system.details", "items"];
     static ACTOR_TYPES = ["character", "npc", "vehicle"];
     static HEADER_CONFIG = {
+        wildcard: {
+            class: "actor-cell-attr",
+            label: `<img src="systems/swade/assets/ui/wildcard-dark.svg" class="actor-header-wildcard"></img>`,
+            sort: 'data-sort-id="wildcard"',
+        },
         size: {
             class: "actor-cell-attr",
             label: "ACTOR_BROWSER.Size",
@@ -48,9 +53,9 @@ export class Swade extends BaseSystem {
             const searchDesc = this.searches.searchDesc;
             filtered = filtered.filter(function (a) {
                 if (a.type == "vehicle") {
-                    return a.system.description?.toLowerCase().includes(searchDesc.toLowerCase())
+                    return a.system.description?.toLowerCase().includes(searchDesc.toLowerCase());
                 } else {
-                    return a.system.details?.biography?.value.toLowerCase().includes(searchDesc.toLowerCase())
+                    return a.system.details?.biography?.value.toLowerCase().includes(searchDesc.toLowerCase());
                 }
             });
         }
@@ -58,6 +63,17 @@ export class Swade extends BaseSystem {
         //Filter by type
         if (this.filters.typeFilter) {
             filtered = filtered.filter((a) => a.type == this.filters.typeFilter);
+        }
+
+        //Filter by wildcard
+        if (this.filters.wildcardFilter) {
+            filtered = filtered.filter((i) => {
+                if (this.filters.wildcardFilter == "no") {
+                    return !i.system.wildcard;
+                } else {
+                    return !!i.system.wildcard;
+                }
+            });
         }
 
         //Filter by edge
@@ -73,7 +89,7 @@ export class Swade extends BaseSystem {
         //Filter by pace
         if (this.filters.paceFilter) {
             let paceFilter = this.filters.paceFilter;
-            filtered.sort((a, b) => a.name.localeCompare(b.name))
+            filtered.sort((a, b) => a.name.localeCompare(b.name));
             filtered = filtered.filter(function (a) {
                 //If we have no pace value, it means we're looking at something from a compendium that has not been migrated
                 //As ground was previously the only pace, we'll assume that this actor has a ground pace
@@ -106,6 +122,7 @@ export class Swade extends BaseSystem {
             let size = actor.type == "vehicle" ? actor.system.size : actor.system.stats.size;
             let data = {
                 ...this.buildCommonRowData(actor),
+                wildcard: { display: game.i18n.localize(actor.system.wildcard ? "ACTOR_BROWSER.Yes" : "ACTOR_BROWSER.No"), sortValue: actor.system.wildcard },
                 size: { display: size, sortValue: size },
                 agi: actor.type == "vehicle" ? CONST.unusedValue : this.getDieColumnData(actor.system.attributes.agility.die),
                 sma: actor.type == "vehicle" ? CONST.unusedValue : this.getDieColumnData(actor.system.attributes.smarts.die),
@@ -145,16 +162,21 @@ export class Swade extends BaseSystem {
 
     getAdditionalFiltersData(browserDialog, actors) {
         let actorTypes = [];
-        actorTypes.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllTypes") });
-        actorTypes.push({ id: "character", label: game.i18n.localize("ACTOR_BROWSER.FilterPCs") });
-        actorTypes.push({ id: "npc", label: game.i18n.localize("ACTOR_BROWSER.FilterNPCs") });
-        actorTypes.push({ id: "vehicle", label: game.i18n.localize("ACTOR_BROWSER.FilterVehicles") });
+        actorTypes.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.All") });
+        actorTypes.push({ id: "character", label: game.i18n.localize("ACTOR_BROWSER.Filter.Values.PCs") });
+        actorTypes.push({ id: "npc", label: game.i18n.localize("ACTOR_BROWSER.Filter.Values.NPCs") });
+        actorTypes.push({ id: "vehicle", label: game.i18n.localize("ACTOR_BROWSER.Filter.Values.Vehicles") });
 
-        let edges = this.buildItemList(actors, "edge", "ACTOR_BROWSER.FilterAllEdges");
-        let abilities = this.buildItemList(actors, "ability", "ACTOR_BROWSER.FilterAllAbilities");
+        let wildcards = [];
+        wildcards.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.All") });
+        wildcards.push({ id: "yes", label: game.i18n.localize("ACTOR_BROWSER.Yes") });
+        wildcards.push({ id: "no", label: game.i18n.localize("ACTOR_BROWSER.No") });
+
+        let edges = this.buildItemList(actors, "edge", "ACTOR_BROWSER.All");
+        let abilities = this.buildItemList(actors, "ability", "ACTOR_BROWSER.All");
 
         let paces = [];
-        paces.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.FilterAllPaces") });
+        paces.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.All") });
         paces.push({ id: "ground", label: game.i18n.localize("SWADE.Movement.Pace.Ground.Label") });
         paces.push({ id: "fly", label: game.i18n.localize("SWADE.Movement.Pace.Fly.Label") });
         paces.push({ id: "swim", label: game.i18n.localize("SWADE.Movement.Pace.Swim.Label") });
@@ -162,6 +184,7 @@ export class Swade extends BaseSystem {
 
         return {
             actorTypes: actorTypes,
+            wildcards: wildcards,
             edges: edges,
             abilities: abilities,
             paces: paces,
@@ -185,6 +208,7 @@ export class Swade extends BaseSystem {
 
     activateListeners(browserDialog) {
         super.addDropdownListener("type", "typeFilter", browserDialog);
+        super.addDropdownListener("wildcard", "wildcardFilter", browserDialog);
         super.addDropdownListener("edge", "edgeFilter", browserDialog);
         super.addDropdownListener("ability", "abilityFilter", browserDialog);
         super.addDropdownListener("pace", "paceFilter", browserDialog);

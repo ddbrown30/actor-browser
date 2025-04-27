@@ -3,30 +3,33 @@
     "ACTOR_BROWSER.OpenActorBrowser": "Open Actor Browser",
     "ACTOR_BROWSER.SearchName": "Name:",
     "ACTOR_BROWSER.SearchDescription": "Description:",
-    "ACTOR_BROWSER.FilterSource": "Filter Source:",
-    "ACTOR_BROWSER.FilterType": "Filter Type:",
-    "ACTOR_BROWSER.FilterEdge": "Filter Edge:",
-    "ACTOR_BROWSER.FilterAbility": "Filter Ability:",
-    "ACTOR_BROWSER.FilterPace": "Filter Pace:",
-    "ACTOR_BROWSER.FilterSpeed": "Filter Speed:",
-    "ACTOR_BROWSER.FilterSense": "Filter Sense:",
     "ACTOR_BROWSER.WorldCompendium": "World Compendium",
-    "ACTOR_BROWSER.FilterAllActors": "All Actors",
-    "ACTOR_BROWSER.FilterWorldActors": "World Actors",
-    "ACTOR_BROWSER.FilterAllTypes": "All Types",
-    "ACTOR_BROWSER.FilterAllEdges": "All Edges",
-    "ACTOR_BROWSER.FilterAllAbilities": "All Abilities",
-    "ACTOR_BROWSER.FilterAllPaces": "All Paces",
-    "ACTOR_BROWSER.FilterAllSpeeds": "All Speeds",
-    "ACTOR_BROWSER.FilterAllSenses": "All Senses",
-    "ACTOR_BROWSER.FilterPCs": "Player Characters",
-    "ACTOR_BROWSER.FilterNPCs": "NPCs",
-    "ACTOR_BROWSER.FilterVehicles": "Vehicles",
     "ACTOR_BROWSER.Select": "Select",
     "ACTOR_BROWSER.Open": "Open",
     "ACTOR_BROWSER.Close": "Close",
 
+    "ACTOR_BROWSER.Source.AllActors": "All Actors",
+    "ACTOR_BROWSER.Source.WorldActors": "World Actors",
+
+    "ACTOR_BROWSER.Filter": {
+        "Source": "Source:",
+        "Type": "Type:",
+        "Edge": "Edge:",
+        "Ability": "Ability:",
+        "Pace": "Pace:",
+        "Speed": "Speed:",
+        "Wildcard": "Wildcard:",
+        "Sense": "Sense:",
+
+        "Values": {
+            "PCs": "Player Characters",
+            "NPCs": "NPCs",
+            "Vehicles": "Vehicles"
+        }
+    },
+
     "ACTOR_BROWSER.Name": "Name",
+    "ACTOR_BROWSER.Wildcard": "Wildcard",
     "ACTOR_BROWSER.Size": "Size",
     "ACTOR_BROWSER.Agi": "Agi",
     "ACTOR_BROWSER.Sma": "Sma",
@@ -41,7 +44,10 @@
     "ACTOR_BROWSER.Speed": "Speed",
     "ACTOR_BROWSER.Senses": "Senses",
 
+    "ACTOR_BROWSER.All": "All",
     "ACTOR_BROWSER.None": "None",
+    "ACTOR_BROWSER.Yes": "Yes",
+    "ACTOR_BROWSER.No": "No",
 
     "ACTOR_BROWSER.WaitError": "Actor Browser was used as a selector but the requester did not wait for the results.",
 

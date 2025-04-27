@@ -1,23 +1,29 @@
 <div class="type-filter filter-row">
-    <label for="type-filter">{{{localize "ACTOR_BROWSER.FilterType"}}}</label>
+    <label for="type-filter">{{{localize "ACTOR_BROWSER.Filter.Type"}}}</label>
     <select id="type-filter" name="type-filter" type="dropdown" placeholder="Filter Type...">
         {{selectOptions additionalFiltersData.actorTypes selected=additionalFiltersData.filters.typeFilter localize=true valueAttr="id" labelAttr="label"}}
     </select>
 </div>
+<div class="wildcard-filter filter-row">
+    <label for="wildcard-filter">{{{localize "ACTOR_BROWSER.Filter.Wildcard"}}}</label>
+    <select id="wildcard-filter" name="wildcard-filter" type="dropdown" placeholder="Filter Wildcard...">
+        {{selectOptions additionalFiltersData.wildcards selected=additionalFiltersData.filters.wildcardFilter localize=true valueAttr="id" labelAttr="label"}}
+    </select>
+</div>
 <div class="edge-filter filter-row">
-    <label for="edge-filter">{{{localize "ACTOR_BROWSER.FilterEdge"}}}</label>
+    <label for="edge-filter">{{{localize "ACTOR_BROWSER.Filter.Edge"}}}</label>
     <select id="edge-filter" name="edge-filter" type="dropdown" placeholder="Filter Edge...">
         {{selectOptions additionalFiltersData.edges selected=additionalFiltersData.filters.edgeFilter localize=true valueAttr="id" labelAttr="label"}}
     </select>
 </div>
 <div class="ability-filter filter-row">
-    <label for="ability-filter">{{{localize "ACTOR_BROWSER.FilterAbility"}}}</label>
+    <label for="ability-filter">{{{localize "ACTOR_BROWSER.Filter.Ability"}}}</label>
     <select id="ability-filter" name="ability-filter" type="dropdown" placeholder="Filter Ability...">
         {{selectOptions additionalFiltersData.abilities selected=additionalFiltersData.filters.abilityFilter localize=true valueAttr="id" labelAttr="label"}}
     </select>
 </div>
 <div class="pace-filter filter-row">
-    <label for="pace-filter">{{{localize "ACTOR_BROWSER.FilterPace"}}}</label>
+    <label for="pace-filter">{{{localize "ACTOR_BROWSER.Filter.Pace"}}}</label>
     <select id="pace-filter" name="pace-filter" type="dropdown" placeholder="Filter Pace...">
         {{selectOptions additionalFiltersData.paces selected=additionalFiltersData.filters.paceFilter localize=true valueAttr="id" labelAttr="label"}}
     </select>

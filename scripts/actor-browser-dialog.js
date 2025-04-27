@@ -65,11 +65,11 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
 
         if (this.options.worldActorsOnly) {
             this.sourceFilter = ActorBrowserDialog.WORLD_ACTORS_ID;
-            sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterWorldActors") });
+            sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.Source.WorldActors") });
         } else {
             //Add an "all" default and the world actors to the sources list
-            sources.push({ id: ActorBrowserDialog.ALL_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterAllActors") });
-            sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.FilterWorldActors") });
+            sources.push({ id: ActorBrowserDialog.ALL_ID, label: game.i18n.localize("ACTOR_BROWSER.Source.AllActors") });
+            sources.push({ id: ActorBrowserDialog.WORLD_ACTORS_ID, label: game.i18n.localize("ACTOR_BROWSER.Source.WorldActors") });
         }
 
         //Grab the actors that are local to this world
