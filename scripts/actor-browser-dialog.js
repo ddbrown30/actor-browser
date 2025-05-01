@@ -36,7 +36,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
 
         super(options);
 
-        this.dragDrop = new DragDrop({
+        this.dragDrop = new foundry.applications.ux.DragDrop({
             dragSelector: '.actor-option',
             callbacks: {
                 dragstart: this.onDragStart.bind(this),

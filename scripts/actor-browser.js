@@ -24,19 +24,19 @@ export class ActorBrowser {
         if (!Utils.getSetting(SETTING_KEYS.showOnActorDirectory)) return;
 
         let useSmallButton = Utils.getSetting(SETTING_KEYS.useSmallButton);
-        const browserButton = await renderTemplate(DEFAULT_CONFIG.templates.actorBrowserButton, {useSmallButton: useSmallButton});
+        const browserButton = await foundry.applications.handlebars.renderTemplate(DEFAULT_CONFIG.templates.actorBrowserButton, {useSmallButton: useSmallButton});
 
         if (useSmallButton) {
-            let header = html[0].querySelector(".header-search");
+            let header = html.querySelector("search");
             header.insertAdjacentHTML("beforeend", browserButton);
         } else {
-            let header = html[0].querySelector(".directory-header");
+            let header = html.querySelector(".directory-header");
             header.insertAdjacentHTML("beforeend", browserButton);
         }
 
         //Respond to the open button
-        const button = html.find(".open-actor-browser-button");
-        button.click(ev => {
+        const button = html.querySelector(".open-actor-browser-button");
+        button.addEventListener("click", ev => {
             new ActorBrowserDialog().render(true);
         });
     }

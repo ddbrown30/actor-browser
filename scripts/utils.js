@@ -57,18 +57,18 @@ export class Utils {
      * Loads templates for partials
      */
     static async loadTemplates() {
-        let listPartial = await loadTemplates([MODULE_CONFIG.DEFAULT_CONFIG.templates.actorList]);
+        let listPartial = await foundry.applications.handlebars.loadTemplates([MODULE_CONFIG.DEFAULT_CONFIG.templates.actorList]);
         Handlebars.registerPartial("actorBrowserListPartial", listPartial[0]);
 
         let filtersTemplate = game.actorBrowser.systemHandler.constructor.ADDITIONAL_FILTERS_TEMPLATE;
         if (filtersTemplate) {
-            let filtersPartial = await loadTemplates([filtersTemplate]);
+            let filtersPartial = await foundry.applications.handlebars.loadTemplates([filtersTemplate]);
             Handlebars.registerPartial("actorBrowserAdditionalFiltersPartial", filtersPartial[0]);
         }
 
         let searchesTemplate = game.actorBrowser.systemHandler.constructor.ADDITIONAL_SEARCHES_TEMPLATE;
         if (searchesTemplate) {
-            let searchesPartial = await loadTemplates([searchesTemplate]);
+            let searchesPartial = await foundry.applications.handlebars.loadTemplates([searchesTemplate]);
             Handlebars.registerPartial("actorBrowserAdditionalSearchesPartial", searchesPartial[0]);
         }
     }
