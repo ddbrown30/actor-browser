@@ -245,6 +245,7 @@
 
 .header-actor-browser .open-actor-browser-button {
     max-width: fit-content;
+    padding: 4px;
 }
 
 .header-actor-browser {
