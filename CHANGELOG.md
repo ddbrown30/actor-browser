@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0
+
+* Fixes for v13
+* Added better dark theme support
+
 ## 0.9.0
 
 * Added wildcard as a column in swade
