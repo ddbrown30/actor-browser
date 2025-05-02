@@ -1,3 +1,11 @@
+.actor-browser-dialog {
+    --box-shadow-color: #00000040;
+
+    .theme-dark & {
+        --box-shadow-color: #96969640;
+    }
+}
+
 .actor-browser-dialog .window-content {
     padding: 0.3rem;
 }
@@ -29,7 +37,7 @@
 .actor-browser-dialog .list-panel,
 .actor-browser-dialog .search-input {
     border-radius: .25rem;
-    box-shadow: 0 0 .25rem .25rem #00000040;
+    box-shadow: 0 0 .25rem .25rem var(--box-shadow-color);
     margin: .25rem;
     overflow-y: auto;
 }
@@ -45,7 +53,7 @@
 
 .actor-browser-dialog .filter-panel h3 {
     margin-top: 10px;
-    color: #454545;
+    color: var(--color-text-secondary);
     text-shadow: 1px 1px 4px #999999;
 }
 
@@ -69,7 +77,7 @@
 }
 
 .actor-browser-dialog .search-input {
-    box-shadow: 0 0 .125rem .125rem #00000040;
+    box-shadow: 0 0 .125rem .125rem var(--box-shadow-color);
     margin: .25rem;
 }
 
@@ -104,6 +112,7 @@
 
 .actor-browser-dialog [data-sort-id]:hover {
     text-shadow: 0 0 8px var(--color-shadow-primary);
+    color: var(--color-form-hint-hover);
 }
 
 .actor-browser-dialog [data-sort-id="wildcard"]:hover {
@@ -115,12 +124,12 @@
 }
 
 .actor-browser-dialog table tr {
-    background: #ffffff40;
+    background: var(--table-row-color-even);
     height: 40px;
 }
 
 .actor-browser-dialog table tr:nth-child(odd) {
-    background: none;
+    background: var(--table-row-color-odd);
 }
 
 .actor-browser-dialog table tr:last-child {
