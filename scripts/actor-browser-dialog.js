@@ -102,6 +102,8 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         let additionalFiltersData = this.systemHandler.getAdditionalFiltersData(this, actors);
         let additionalSearchesData = this.systemHandler.getAdditionalSearchesData(this, actors);
 
+        this.documentTagsFilter ??= [];
+
         const headerData = this.getHeaderData();
 
         this.searchName = this.searchName ?? "";
@@ -125,6 +127,9 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             additionalFiltersData: additionalFiltersData,
             additionalSearchesData: additionalSearchesData,
             headerData: headerData,
+            filterTags: this.filterTags,
+            documentTaggerActive: !!game.documentTagger,
+            documentTagsFilter: this.documentTagsFilter,
         };
     };
 
@@ -141,7 +146,7 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
 
     async renderActorList(data) {
         //Re-render just the actor list with the newly filtered list and replace the html
-        const content = await renderTemplate(DEFAULT_CONFIG.templates.actorList, data);
+        const content = await foundry.applications.handlebars.renderTemplate(DEFAULT_CONFIG.templates.actorList, data);
         let listPanel = this.element.querySelector(".list-panel");
         let actorList = listPanel.querySelector(".actor-list");
         actorList.innerHTML = content;
@@ -164,6 +169,13 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         filterSelector.addEventListener("change", async event => {
             const selection = $(event.target).find("option:selected");
             this.sourceFilter = selection.val();
+            let data = await this._prepareContext();
+            await this.renderActorList(data);
+        });
+
+        const tagInput = this.element.querySelector('tag-input');
+        tagInput?.addEventListener("tagschanged", async event => {
+            this.documentTagsFilter = tagInput.tagList;
             let data = await this._prepareContext();
             await this.renderActorList(data);
         });
@@ -292,6 +304,16 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         return filtered;
     }
 
+    filterActorsByDocumentTag(actors) {
+        let filtered = actors;
+
+        if (this.documentTagsFilter.length) {
+            filtered = filtered.filter((a) => game.documentTagger.hasTags(a, this.documentTagsFilter, { matchAll: true, ignoreCase: true }));
+        }
+
+        return filtered;
+    }
+
     filterActors(actors) {
         let filtered = actors;
 
@@ -310,6 +332,8 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             //The TCAL module is active so filter out any transient actors so they don't clutter up the list
             filtered = filtered.filter((a) => !game.tcal.isTransientActor(a));
         }
+
+        filtered = this.filterActorsByDocumentTag(filtered);
 
         //System specific filter
         filtered = this.systemHandler.filterActors(filtered);

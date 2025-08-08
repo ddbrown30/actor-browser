@@ -10,6 +10,9 @@
         <div class="system-filters">
             {{#> actorBrowserAdditionalFiltersPartial additionalFiltersData=additionalFiltersData}}{{/actorBrowserAdditionalFiltersPartial}}
         </div>
+        {{#if documentTaggerActive}}
+            <tag-input class="flat-tags" data-tags="{{documentTagsFilter}}"></tag-input>
+        {{/if}}
     </div>
     <div class="list-panel">
         <div class="search-input">
