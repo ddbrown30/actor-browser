@@ -46,6 +46,10 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         this.systemHandler = game.actorBrowser.systemHandler;
         this.systemHandler.clearFilters(this);
         this.systemHandler.clearSearches(this);
+
+        if (options.searchName) {
+            this.searchName = options.searchName;
+        }
     }
 
     onDragStart(event) {
