@@ -131,7 +131,6 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
             additionalFiltersData: additionalFiltersData,
             additionalSearchesData: additionalSearchesData,
             headerData: headerData,
-            filterTags: this.filterTags,
             documentTaggerActive: !!game.documentTagger,
             documentTagsFilter: this.documentTagsFilter,
         };
