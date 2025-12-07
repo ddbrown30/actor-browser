@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+* Added tags option
+
 ## 1.2.0
 
 * Added searchName option

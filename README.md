@@ -26,6 +26,7 @@ let result = await game.actorBrowser.openBrowser(options);
   * `initialSourceFilter` Sets the initial "Filter Source" selection of the browser. The provided value should be the id of the desired compendium (see tip below) or `worldActors` to select World Actors. This only sets the starting value; it will still be possible to select other options as normal. This option is not compatible with `worldActorsOnly` with that option taking precedence.
   * `validFilterSources` This limits the list of sources available for "Filter Source." The provided value should be an array of ids of the desired compendiums (see tip below), `worldActors` for World Actors, and "all" for All Actors. The default value will be whatever would normally appear earliest in the list. This option is not compatible with `worldActorsOnly` with that option taking precedence.
   * `searchName` Populates the name search field with this value when opening the browser. It only populates the initial value and the user is free to change it.
+  * `tags` Populates the document tags filter. This can either be a single tag or an array and tags should be in colon notation form (see the Document Tagger module documentation for more info). It only populates the initial value and the user is free to change it.
 
 > [!TIP]
 > An easy way to get the id for a compendium is to open one of its actors and grab its UUID. The compendium id will be the part between `Compendium.` and `.Actor` e.g. the compendium id for `Compendium.dnd5e.monsters.Actor.M4eX4Mu5IHCr3TMf` is `dnd5e.monsters`.

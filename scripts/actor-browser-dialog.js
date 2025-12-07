@@ -50,6 +50,10 @@ export class ActorBrowserDialog extends HandlebarsApplicationMixin(ApplicationV2
         if (options.searchName) {
             this.searchName = options.searchName;
         }
+
+        if (options.tags) {
+            this.documentTagsFilter = options.tags;
+        }
     }
 
     onDragStart(event) {
