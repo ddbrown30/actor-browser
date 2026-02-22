@@ -13,14 +13,4 @@
     <th {{{sort}}}>{{{localize label}}}</th>
     {{/each}}
 </tr>
-{{#each actors}}
-<tr class="actor-option{{#if (and ../selectedActor (eq ../selectedActor uuid))}} selected{{/if}}" data-actor-id="{{uuid}}" data-tooltip="{{tooltip}}">
-    <td class="actor-cell-img">
-        <img src="{{img.display}}" alt="{{name.display}}" loading="lazy" class="actor-row-img">
-    </td>
-    <td class="actor-cell-name" colspan="2">
-        <p class="actor-row-text">{{name.display}}</p>
-    </td>
-    {{{rowHtml}}}
-</tr>
-{{/each}}
+{{> actorBrowserListRowsPartial actors=actors}}

@@ -23,6 +23,10 @@ export class ActorBrowser {
     static async onRenderActorDirectory(app, html, data) {
         if (!Utils.getSetting(SETTING_KEYS.showOnActorDirectory)) return;
 
+        //We sometimes get the render call mutliple times
+        //If the button already exists, early out so it's not added twice.
+        if (html.querySelector(".open-actor-browser-button")) return;
+
         let useSmallButton = Utils.getSetting(SETTING_KEYS.useSmallButton);
         const browserButton = await foundry.applications.handlebars.renderTemplate(DEFAULT_CONFIG.templates.actorBrowserButton, {useSmallButton: useSmallButton});
 
@@ -37,11 +41,17 @@ export class ActorBrowser {
         //Respond to the open button
         const button = html.querySelector(".open-actor-browser-button");
         button.addEventListener("click", ev => {
-            new ActorBrowserDialog().render(true);
+            ActorBrowser.openBrowser({ selector: false });
         });
     }
 
     static async openBrowser(options={}) {
+        const actorBrowserDialog = foundry.applications.instances.get(ActorBrowserDialog.DEFAULT_OPTIONS.id);
+        if (actorBrowserDialog) {
+            actorBrowserDialog.bringToFront();
+            return;
+        }
+
         options.selector = options.selector ?? true;
         if (options.selector) {
             return await new ActorBrowserDialog(options).wait();

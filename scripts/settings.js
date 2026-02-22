@@ -26,4 +26,22 @@ export function registerSettings() {
             ui.actors.render(true);
         }
     });
+
+    Utils.registerSetting(MODULE_CONFIG.SETTING_KEYS.useProgressiveRendering, {
+        name: "ACTOR_BROWSER.Settings.UseProgressiveRenderingN",
+        hint: "ACTOR_BROWSER.Settings.UseProgressiveRenderingH",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: true,
+    });
+
+    Utils.registerSetting(MODULE_CONFIG.SETTING_KEYS.progressiveRenderSize, {
+        name: "ACTOR_BROWSER.Settings.ProgressiveRenderSizeN",
+        hint: "ACTOR_BROWSER.Settings.ProgressiveRenderSizeH",
+        scope: "client",
+        config: true,
+        type: Number,
+        default: MODULE_CONFIG.DEFAULT_CONFIG.progressiveRenderSize,
+    });
 }

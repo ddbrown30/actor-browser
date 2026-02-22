@@ -55,5 +55,11 @@
     "ACTOR_BROWSER.Settings.ShowOnActorDirectoryH": "If enabled, a button to open the Actor Browser will be added to the Actors tab",
 
     "ACTOR_BROWSER.Settings.UseSmallButtonN": "Use Small Button",
-    "ACTOR_BROWSER.Settings.UseSmallButtonH": "If enabled, the button on the Actors tab is small and placed in the same row as the search field"
+    "ACTOR_BROWSER.Settings.UseSmallButtonH": "If enabled, the button on the Actors tab is small and placed in the same row as the search field",
+
+    "ACTOR_BROWSER.Settings.UseProgressiveRenderingN": "Use Progressive Rendering",
+    "ACTOR_BROWSER.Settings.UseProgressiveRenderingH": "If enabled, the table is rendered over time to make the browser more responsive when there are thousands of rows",
+
+    "ACTOR_BROWSER.Settings.ProgressiveRenderSizeN": "Progressive Render Size",
+    "ACTOR_BROWSER.Settings.ProgressiveRenderSizeH": "The number of rows to render each pass. If you have slow hardware or are finding the browser to be unresponsive, set this to a lower value."
 }

@@ -15,7 +15,9 @@ export const DEFAULT_CONFIG = {
         actorBrowserDialogBody: `${PATH}/templates/actor-browser-dialog-body.hbs`,
         actorBrowserDialogFooter: `${PATH}/templates/actor-browser-dialog-footer.hbs`,
         actorList: `${PATH}/templates/partials/actor-list.hbs`,
-    }
+        actorRows: `${PATH}/templates/partials/actor-rows.hbs`,
+    },
+    progressiveRenderSize: 1000,
 }
 
 export const FLAGS = {
@@ -24,5 +26,7 @@ export const FLAGS = {
 export const SETTING_KEYS = {
     showOnActorDirectory: "showOnActorDirectory",
     useSmallButton: "useSmallButton",
+    useProgressiveRendering: "useProgressiveRendering",
+    progressiveRenderSize: "progressiveRenderSize",
 }
 
