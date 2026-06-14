@@ -66,7 +66,7 @@ export class DnD5e extends BaseSystem {
                 type: this.getTypeColumnData(actor.system.details.type?.value),
                 size: this.getSizeColumnData(actor.system.traits.size),
                 speed: this.getSpeedColumnData(actor.system.attributes.movement),
-                senses: this.getSenseColumnData(actor.system.attributes.senses),
+                senses: this.getSenseColumnData(actor.system.attributes.senses?.ranges || actor.system.attributes.senses),
                 alignment: this.getAlignmentColumnData(actor.system.details.alignment),
             };
 
@@ -104,7 +104,7 @@ export class DnD5e extends BaseSystem {
             if (display) {
                 display += "\n";
             }
-            display += CONFIG.DND5E.movementTypes[type] + " " + value;
+            display += CONFIG.DND5E.movementTypes[type].label + " " + value;
         }
 
         if (!display) {
@@ -144,7 +144,7 @@ export class DnD5e extends BaseSystem {
         let speeds = [];
         speeds.push({ id: "", label: game.i18n.localize("ACTOR_BROWSER.All") });
         for (let [type, value] of Object.entries(CONFIG.DND5E.movementTypes)) {
-            speeds.push({ id: type, label: value });
+            speeds.push({ id: type, label: value.label });
         }
 
         let senses = [];

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0
+
+* Updated dnd5e to v14
+
 ## 1.4.0
 
 * Added progressive rendering which renders batches of rows over time rather than the entire table all at once. This improves responsiveness in tables with thousands of actors. This is enabled by default but can be disabled from the settings. The render size can also be adjusted from the settings.
